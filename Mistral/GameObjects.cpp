@@ -37,8 +37,8 @@ void Character::Update() {
 	}
 	else {
 		if (abs(vspd) > 0) {
-			y_scale = 0.7;
-			x_scale = 1.3;
+			y_scale = 0.2;
+			x_scale = 1.8;
 		}
 		vspd = 0;
 		y = 0;
@@ -60,3 +60,7 @@ void Character::Update() {
 	y += vspd;
 	x += hspd;
 };
+
+void Teapot::Update() {
+	x += 0.1;
+}

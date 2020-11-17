@@ -130,8 +130,11 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 
 	camera = new Camera(self);
 
+	//====================================
 	new Character(self);
+	new Teapot(self);
 
+	// ==============================
 	glutDisplayFunc(DrawCallback);
 	glutTimerFunc(int(1000 / fps), UpdateCallback, 0);
 

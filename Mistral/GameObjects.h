@@ -14,7 +14,27 @@ class Character : public Entity {
 		void Update();
 
 		void DrawSelf() {
-			glutSolidSphere(0.1, 20, 20);
+			glPushMatrix();
+				glScalef(1, 2, 1);
+				glTranslatef(0, 0.1, 0);
+				glutSolidCube(0.1);
+			glPopMatrix();
+			glPushMatrix();
+				glScalef(0.5, 1, 0.5);
+				glTranslatef(-0.1, 0.05, 0);
+				glutSolidCube(0.1);
+			glPopMatrix();
+			glPushMatrix();
+				glScalef(0.5, 1.3, 0.5);
+				glTranslatef(0.1, 0.05, 0);
+				glutSolidCube(0.1);
+			glPopMatrix();
+			glPushMatrix();
+				glColor3f(1, 0, 0);
+				glScalef(1.2, 1.2, 1.2);
+				glTranslatef(0, 0.3, 0);
+				glutSolidCube(0.1);
+			glPopMatrix();
 		};
 
 		void Draw() {
@@ -39,4 +59,16 @@ class Character : public Entity {
 		float acceleration = 0.001;
 		float gravity = 0.002;
 		float jumpforce = 0.06;
+};
+
+class Teapot : public Entity {
+public:
+
+	Teapot(Mistral* g) : Entity(g) { Create(); };
+
+	void DrawSelf() {
+		glutSolidTeapot(0.1);
+	};
+
+	void Update();
 };
