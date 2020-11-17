@@ -17,6 +17,7 @@ class Mistral {
 		~Mistral();
 
 		int Run(int argc, char* args[], Mistral* s);
+		void End();
 
 		static void setSelf(Mistral* s) { self = s; };
 
@@ -30,9 +31,8 @@ class Mistral {
 
 		Camera* camera;
 		Input* input;
-
-		glm::mat4 cameraView = glm::mat4(1.0f);
 	private:
+		int winId;
 		// Main methods and callbacks of these methods
 		virtual void GeneralUpdate(int value);
 		virtual void GeneralDraw();

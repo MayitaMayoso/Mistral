@@ -1,4 +1,3 @@
-#include "Entity.h"
 #include "Mistral.h"
 #include "Camera.h"
 
@@ -11,8 +10,6 @@ Camera::Camera(Mistral* g) {
 	game = g;
 }
 
-void Camera::SetTarget(Entity* e) {	target = e; }
-
 void Camera::zoom(float zoom_factor) {
 
 	glm::vec3 zoom = front * zoom_factor;
@@ -24,13 +21,10 @@ void Camera::zoom(float zoom_factor) {
 }
 
 // Pan function (translate both camera eye and lookat point)
-void Camera::pan(float pan_factorX, float pan_factorY, float pan_factorZ) {
-
-	glm::vec3 panX = right * pan_factorX;
-	glm::vec3 panY = up * pan_factorY;
-	glm::vec3 panZ = front * pan_factorY;
-	position += panX + panY + panZ;
-	lookat += panX + panY + panZ;
+void Camera::pan(float pan_x, float pan_y, float pan_z) {
+	glm::vec3 movVec = glm::vec3(pan_x, pan_y, pan_z);
+	position += movVec;
+	lookat += movVec;
 
 	// create orthonormal camera system and view matrix
 	UpdateCamera();
@@ -63,7 +57,6 @@ void Camera::rotate(glm::vec3 rotation_center, float angle_X_inc, float angle_Y_
 
 // create orthonormal camera system
 void Camera::UpdateCamera() {
-
 	// create new direction vector
 	front = glm::normalize(lookat - position);
 
@@ -72,7 +65,4 @@ void Camera::UpdateCamera() {
 
 	// new up vector (orthogonal to right, direction)
 	up = glm::normalize(glm::cross(right, front));
-
-	// generate view matrix
-	game->cameraView = glm::lookAt(position, lookat, up);
 }

@@ -9,15 +9,11 @@ using namespace std;
 
 class Mistral;
 
-class Entity;
-
 class Camera {
 public:
 	Camera(Mistral* g);
 
 	void UpdateCamera();
-
-	void SetTarget( Entity* t );
 
 	void zoom(float zoom_factor);
 	void pan(float pan_factorX, float pan_factorY, float pan_factorZ);
@@ -32,10 +28,5 @@ public:
 
 
 private:
-	Entity* target;
 	Mistral* game;
-
-	glm::mat4x4 view_matrix;
-
-	float spd = 0.3f;
 };

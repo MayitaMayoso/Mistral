@@ -51,9 +51,9 @@ Mistral::Mistral() {
 	AspectRatio = float(width) / float(height);
 	fov = 50.0f;
 	fps = 60;
+	winId = 0;
 
 	input = new Input();
-	camera = new Camera(self);
 }
 
 void Mistral::GeneralDraw() {
@@ -67,6 +67,15 @@ void Mistral::GeneralDraw() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+	gluLookAt(camera->position.x,	camera->position.y, camera->position.z
+			 ,camera->lookat.x,		camera->lookat.y,	camera->lookat.z
+			 ,camera->up.x,			camera->up.y,		camera->up.z	);
+
+	// Draw all the entities
+	for (Entity* e : EntitiesList) {
+		e->DrawSelfCallback();
+	}
+
 	// Draw all the entities
 	for (Entity* e : EntitiesList) {
 		e->Draw();
@@ -78,6 +87,7 @@ void Mistral::GeneralUpdate(int value) {
 	static int delta = glutGet(GLUT_ELAPSED_TIME);
 
 	input->UpdateInputs();
+	camera->UpdateCamera();
 
 	// Draw all the entities
 	for (Entity* e : EntitiesList) {
@@ -104,6 +114,10 @@ void Mistral::GeneralReleaseSpecial(int key, int x, int y) {
 	input->KeyboardReleaseHandle(key);
 }
 
+void Mistral::End() {
+	glutDestroyWindow(winId);
+}
+
 int Mistral::Run(int argc, char* args[], Mistral* s) {
 	glutInit(&argc, args);
 	setSelf(s);
@@ -111,8 +125,10 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(width, height);
 	glutInitWindowPosition(1920 / 2 - width / 2, 1080 / 2 - height / 2);
-	glutCreateWindow("Mistral");
+	winId = glutCreateWindow("Mistral");
 	init();
+
+	camera = new Camera(self);
 
 	new Character(self);
 

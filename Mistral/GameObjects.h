@@ -9,42 +9,34 @@ class Character : public Entity {
 
 		Character(Mistral* g) : Entity(g) { Create(); };
 
-		void Create() { std::cout << "Create"; };
+		void Create();
 
 		void Update();
 
-		void Draw() {
-			// Use glTranslatef to move the camera back ten unit along the Z axis.
-			//             X     Y     Z
-			glTranslatef(ballPositionX, 0.0f, ballPositionY);
-
-			// Set the sphere's color.
-			glColor4fv(ballColor);
+		void DrawSelf() {
 			glutSolidSphere(0.1, 20, 20);
-
-			glRotatef(ballAngle, 0, 1, 0);
-			glTranslatef(4, 0, 0);
-			glColor3f(0, 1, 0);
-			glutSolidSphere(1.0, 20, 20);
-
-			glPushMatrix();
-
-			glRotatef(ballAngle * 5, 0, 1, 0);
-			glTranslatef(1.5, 0, 0);
-			glColor3f(0.5, 0.5, 0.5);
-			glutSolidSphere(0.05, 20, 20);
-
-			glPopMatrix();
-
-			glRotatef(ballAngle * 2, 0, 1, 0);
-			glTranslatef(1.5, 1.0, 0);
-			glColor3f(1.0, 0.3, 0.3);
-			glutSolidSphere(0.03, 20, 20);
 		};
 
-		GLfloat ballColor[4] = { 0.0, 0.0, 1.0, 1.0 };
-		GLfloat ballPositionX = 0.0;
-		GLfloat ballPositionY = 0.0;
-		GLfloat ballAngle = 0.0;
-		float spd = 0.01;
+		void Draw() {
+			glPushMatrix();
+			glColor3f(0.5, 0.1, 0.01);
+			glTranslatef(0, -0.15, 0);
+			glScalef(100, 1, 1);
+			glutSolidCube(0.1);
+			glPopMatrix();
+			glColor3f(0, 1, 0.2);
+			for (int i = 0; i < 50; i++) {
+				glPushMatrix();
+				glTranslatef(-50*0.1 + 0.1 * i * 2, (i%5)*0.1, -0.5 + (i % 3) * -0.3);
+				glutSolidCube(0.1);
+				glPopMatrix();
+			}
+		};
+
+		float hspd = 0;
+		float vspd = 0;
+		float maxspd = 0.02;
+		float acceleration = 0.001;
+		float gravity = 0.002;
+		float jumpforce = 0.06;
 };

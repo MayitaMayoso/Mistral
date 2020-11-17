@@ -12,10 +12,14 @@ class Entity {
 	public:
 		Entity( Mistral* g ); // Class constructor. Initializes all the Entities built-in variables.
 		~Entity();
-		
-		virtual void Draw() {}; // Draws the Entitys body. Position, scale and angle affects how the bodys is drawn.
+
+		void DrawSelfCallback();
+
 		virtual void Create() {};
 		virtual void Update() {}; // This method is called in the Timer Function of the main loop.
+		virtual void Draw() {}; // Draws the Entitys body. Position, scale and angle affects how the bodys is drawn.
+		virtual void DrawSelf() {}; // Same as the draw event but is affected by the transformations
+									// of position, scale and rotation
 
 		// ------------------- Getters and Setters -----------------------
 		bool visible = true;

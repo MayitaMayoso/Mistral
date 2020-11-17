@@ -59,7 +59,7 @@ enum InputKey {
 	ARROWDOWN = GLUT_KEY_DOWN,
 
 	SPACE = 32,
-	
+	ESCAPE = 27,	
 
 	F1 = GLUT_KEY_F1,
 	F2 = GLUT_KEY_F2,

@@ -12,18 +12,19 @@ Entity::Entity(Mistral* g) {
 	x = 0.0f;
 	y = 0.0f;
 	z = 0.0f;
-	x_origin = 0.0f;
-	y_origin = 0.0f;
-	z_origin = 0.0f;
-	x_scale = 1.0f;
-	y_scale = 1.0f;
-	z_scale = 1.0f;
-	x_angle = 0.0f;
-	y_angle = 0.0f;
-	z_angle = 0.0f;
-	red = 1;
-	green = 1;
-	blue = 1;
+	x_origin = 0.0;
+	y_origin = 0.0;
+	z_origin = 0.0;
+	x_scale = 1.0;
+	y_scale = 1.0;
+	z_scale = 1.0;
+	x_angle = 0.0;
+	y_angle = 0.0;
+	z_angle = 0.0;
+	red = 1.0;
+	green = 1.0;
+	blue = 1.0;
+	alpha = 1.0;
 
 	game = g;
 
@@ -35,6 +36,18 @@ Entity::Entity(Mistral* g) {
 }
 
 Entity::~Entity() {}
+
+void Entity::DrawSelfCallback() {
+	if (visible) {
+		glPushMatrix();
+		glColor4f(red, green, blue, alpha);
+		glTranslatef(x_origin, y_origin, z_origin);
+		glTranslatef(x, y, z);
+		glScalef(x_scale, y_scale, z_scale);
+		DrawSelf();
+		glPopMatrix();
+	}
+}
 
 // ==================================================================
 //    THESE ARE THE GETTERS AND SETTERS OF THE ENTITY CLASS
