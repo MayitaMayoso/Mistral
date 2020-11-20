@@ -71,4 +71,7 @@ public:
 	};
 
 	void Update();
+
+	float spd = 0.01;
+	float range = 5;
 };

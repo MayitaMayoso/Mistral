@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Camera.h"
 #include "GameObjects.h"
+#include "math.h"
 
 float approach(float a, float b, float amount) {
 	if (a < b) {
@@ -62,5 +63,8 @@ void Character::Update() {
 };
 
 void Teapot::Update() {
-	x += 0.1;
+	x += spd;
+	x_scale = (spd > 0) ? 1 : -1;
+	if (x > range) spd = -spd;
+	if (x < -range) spd = -spd;
 }
