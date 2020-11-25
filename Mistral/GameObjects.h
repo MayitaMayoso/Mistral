@@ -15,63 +15,95 @@ class Character : public Entity {
 
 		void DrawSelf() {
 			glPushMatrix();
-				glScalef(1, 2, 1);
-				glTranslatef(0, 0.1, 0);
-				glutSolidCube(0.1);
-			glPopMatrix();
-			glPushMatrix();
-				glScalef(0.5, 1, 0.5);
-				glTranslatef(-0.1, 0.05, 0);
-				glutSolidCube(0.1);
-			glPopMatrix();
-			glPushMatrix();
-				glScalef(0.5, 1.3, 0.5);
-				glTranslatef(0.1, 0.05, 0);
-				glutSolidCube(0.1);
-			glPopMatrix();
-			glPushMatrix();
-				glColor3f(1, 0, 0);
-				glScalef(1.2, 1.2, 1.2);
-				glTranslatef(0, 0.3, 0);
-				glutSolidCube(0.1);
-			glPopMatrix();
-		};
-
-		void Draw() {
-			glPushMatrix();
-			glColor3f(0.5, 0.1, 0.01);
-			glTranslatef(0, -0.15, 0);
-			glScalef(100, 1, 1);
-			glutSolidCube(0.1);
-			glPopMatrix();
-			glColor3f(0, 1, 0.2);
-			for (int i = 0; i < 50; i++) {
+				// Body
 				glPushMatrix();
-				glTranslatef(-50*0.1 + 0.1 * i * 2, (i%5)*0.1, -0.5 + (i % 3) * -0.3);
-				glutSolidCube(0.1);
+					glColor3f(204. / 255., 51. / 255, 153. / 255.);
+					glTranslatef(0., .1, 0.);
+					glScalef(.5, .7, .5);
+					glTranslatef(0., .5, 0.);
+					glutSolidCube(1.);
 				glPopMatrix();
-			}
+
+				// Head
+				glPushMatrix();
+					glColor3f(204. / 255., 51. / 255, 153. / 255.);
+					glTranslatef(0.1, .7, 0.);
+					glScalef(.5, .5, .5);
+					glTranslatef(0., .5, 0.);
+					glRotatef(-45., 0., 0., 1.);
+					glRotatef(-45., 0., 1., 0.);
+					glutSolidCube(1.);
+				glPopMatrix();
+
+				// Right Arm
+				glPushMatrix();
+					glColor3f(163 / 255., 41 / 255, 122 / 255.);
+					glTranslatef(0.05, .5, 0.3);
+					glScalef(.2, .2, .2);
+					glTranslatef(0., .5, 0.);
+					glutSolidCube(1.);
+				glPopMatrix();
+
+				// Left Arm
+				glPushMatrix();
+					glColor3f(163 / 255., 41 / 255, 122 / 255.);
+					glTranslatef(0.05, .5, -0.3);
+					glScalef(.2, .2, .2);
+					glTranslatef(0., .5, 0.);
+					glutSolidCube(1.);
+				glPopMatrix();
+
+				// Right Foot
+				glPushMatrix();
+				glColor3f(163 / 255., 41 / 255, 122 / 255.);
+				glTranslatef(0., .0, 0.3);
+				glScalef(.2, .2, .2);
+				glTranslatef(0., .5, 0.);
+				glutSolidCube(1.);
+				glPopMatrix();
+
+				// Left Foot
+				glPushMatrix();
+				glColor3f(163 / 255., 41 / 255, 122 / 255.);
+				glTranslatef(0., .0, -0.3);
+				glScalef(.3, .3, .3);
+				glTranslatef(0., .5, 0.);
+				glutSolidCube(1.);
+				glPopMatrix();
+			glPopMatrix();
 		};
 
 		float hspd = 0;
 		float vspd = 0;
-		float maxspd = 0.02;
-		float acceleration = 0.001;
-		float gravity = 0.002;
-		float jumpforce = 0.06;
+		float maxspd = 0.1;
+		float acceleration = 0.01;
+		float gravity = 0.01;
+		float jumpforce = 0.2;
 };
 
-class Teapot : public Entity {
+class Ground : public Entity {
 public:
 
-	Teapot(Mistral* g) : Entity(g) { Create(); };
+	Ground(Mistral* g) : Entity(g) { Create(); };
 
-	void DrawSelf() {
-		glutSolidTeapot(0.1);
-	};
+	void Create();
 
 	void Update();
 
-	float spd = 0.01;
-	float range = 5;
+	void DrawSelf() {
+		glPushMatrix();
+			glColor3f(0., 150. / 255., 50. / 255.);
+			glScalef(1., .3, 1.);
+			glTranslatef(0., -0.5, 0.);
+			glutSolidCube(1);
+		glPopMatrix();
+
+		glPushMatrix();
+			glColor3f(102. / 255., 50. / 255., 0.);
+			glTranslatef(0., -0.3, 0.);
+			glScalef(1., .7, 1.);
+			glTranslatef(0., -0.5, 0.);
+			glutSolidCube(1);
+		glPopMatrix();
+	};
 };

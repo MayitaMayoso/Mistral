@@ -23,7 +23,7 @@ glm::vec3 lerp(glm::vec3 a, glm::vec3 b, float amount) {
 }
 
 void Character::Create() {
-	red = 0.0;
+	alpha = 0.5;
 };
 
 void Character::Update() {
@@ -52,9 +52,9 @@ void Character::Update() {
 
 	if (game->input->InputCheck("EXIT", InputState::PRESSED)) game->End();
 
-	game->camera->position = lerp(game->camera->position, glm::vec3(x, y + 0.7, z + 3), 0.01);
+	game->camera->position = lerp(game->camera->position, glm::vec3(x, y + 0.7, z + 6), 0.1);
 	game->camera->lookat = glm::vec3(x, y + 0.3, z);
-	game->camera->UpdateCamera();
+	game->camera->up = glm::vec3(0., 1., 0.);
 
 	x_scale = lerp(x_scale, 1, 0.1);
 	y_scale = lerp(y_scale, 1, 0.1);
@@ -62,9 +62,9 @@ void Character::Update() {
 	x += hspd;
 };
 
-void Teapot::Update() {
-	x += spd;
-	x_scale = (spd > 0) ? 1 : -1;
-	if (x > range) spd = -spd;
-	if (x < -range) spd = -spd;
+void Ground::Create() {
+	x_scale = 100;
+}
+
+void Ground::Update() {
 }

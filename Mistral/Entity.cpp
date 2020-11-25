@@ -12,9 +12,6 @@ Entity::Entity(Mistral* g) {
 	x = 0.0f;
 	y = 0.0f;
 	z = 0.0f;
-	x_origin = 0.0;
-	y_origin = 0.0;
-	z_origin = 0.0;
 	x_scale = 1.0;
 	y_scale = 1.0;
 	z_scale = 1.0;
@@ -41,7 +38,6 @@ void Entity::DrawSelfCallback() {
 	if (visible) {
 		glPushMatrix();
 		glColor4f(red, green, blue, alpha);
-		glTranslatef(x_origin, y_origin, z_origin);
 		glTranslatef(x, y, z);
 		glScalef(x_scale, y_scale, z_scale);
 		DrawSelf();
@@ -68,13 +64,6 @@ float Entity::get_x() { return x; }
 float Entity::get_y() { return y; }
 
 float Entity::get_z() { return z; }
-
-
-float Entity::get_x_origin() { return x_origin; }
-
-float Entity::get_y_origin() { return y_origin; }
-
-float Entity::get_z_origin() { return z_origin; }
 
 
 float Entity::get_x_scale() { return x_scale; }
@@ -109,15 +98,6 @@ void Entity::set_x( float value ) { x = value; }
 void Entity::set_y( float value ) { y = value; }
 
 void Entity::set_z( float value) { z = value; }
-
-
-void Entity::set_origin(float x_value, float y_value, float z_value) { x_origin = x_value; y_origin = y_value; z_origin = z_value; }
-
-void Entity::set_x_origin( float value ) { x_origin = value; }
-
-void Entity::set_y_origin( float value ) { y_origin = value; }
-
-void Entity::set_z_origin( float value ) { z_origin = value; }
 
 
 void Entity::set_scale(float x_value, float y_value, float z_value) { x_scale = x_value; y_scale = y_value; z_scale = z_value; }

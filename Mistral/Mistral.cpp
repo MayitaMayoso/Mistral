@@ -21,10 +21,11 @@ void init(void) {
 	float specularLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float LightPosition[] = { 8.0f, 8.0f, 8.0f, 1.0f };
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);  // Clear the screen to black.
+	glClearColor(0.0f, 0.7f, 0.8f, 1.0f);  // Clear the screen to black.
 	glShadeModel(GL_SMOOTH);               // Smooth shading in our scenes.
 	glEnable(GL_DEPTH_TEST);               // Enable desth testing.
 	glEnable(GL_LIGHTING);                 // Enable lighting.
+
 
 	// Here we will set up a spotlight light source in our scene.  This light will shine on
 	// the objects giving them a nicer look than a plain dull color.  This stuff has nothing
@@ -38,9 +39,9 @@ void init(void) {
 
 	// Set up the material information for our objects.  Again this is just for show.
 	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, specularLight);
-	glMateriali(GL_FRONT, GL_SHININESS, 60);
+	glColorMaterial(GL_FRONT_RIGHT, GL_AMBIENT_AND_DIFFUSE);
+	glMaterialfv(GL_FRONT_RIGHT, GL_SPECULAR, specularLight);
+	glMateriali(GL_FRONT_RIGHT, GL_SHININESS, 60);
 }
 
 // ------------- INITIALIZING THE ENGINE VARIABLES ---------------
@@ -49,7 +50,7 @@ Mistral::Mistral() {
 	width = 1280;
 	height = 720;
 	AspectRatio = float(width) / float(height);
-	fov = 50.0f;
+	fov = 90.0f;
 	fps = 60;
 	winId = 0;
 
@@ -122,7 +123,7 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 	glutInit(&argc, args);
 	setSelf(s);
 
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(width, height);
 	glutInitWindowPosition(1920 / 2 - width / 2, 1080 / 2 - height / 2);
 	winId = glutCreateWindow("Mistral");
@@ -132,7 +133,7 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 
 	//====================================
 	new Character(self);
-	new Teapot(self);
+	Entity* e = new Ground(self);
 
 	// ==============================
 	glutDisplayFunc(DrawCallback);
