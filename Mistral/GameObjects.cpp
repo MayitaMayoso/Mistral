@@ -2,11 +2,10 @@
 #include "Input.h"
 #include "Camera.h"
 #include "GameObjects.h"
-#include "Math.h"
+#include "random"
 
 #define PI 3.14159265358979323
 
-#define Color(col) { glColor3f(col[0]/255., col[1]/255., col[2]/255.); };
 
 float Wave(float from, float to, float duration, float offset, float W) {
 	float A = float((to - from) * 0.5);
@@ -32,48 +31,92 @@ glm::vec3 lerp(glm::vec3 a, glm::vec3 b, float amount) {
 	return a + (b - a) * amount;
 }
 
+int sign(float val) {
+	return (val == 0) ? 0 : ( ( val > 0 ) ? 1 : -1);
+}
+
+float radians(float degree) {
+	return degree * (PI / 180);
+}
+
+float degrees(float radian) {
+	return radian * (180 / PI);
+}
+
 void Character::Create() {
-	y_angle = -30;
+	rotation.y = -30;
+	margin = glm::vec4(0.25f, 0.9f, 0.25f, 0.0f);
+	position.y = 1.0f;
 };
 
 void Character::Update() {
-	animation++;
 	int hdir = (int)game->input->InputCheck("RIGHT", InputState::HOLD) - (int)game->input->InputCheck("LEFT", InputState::HOLD);
+
+	int vdir = - (int)game->input->InputCheck("DOWN", InputState::HOLD);
 
 	// Horizontal movement
 	hspd = approach(hspd, maxspd * hdir, acceleration);
 
-	if (hspd > 0)	y_angle = lerp(y_angle, -30, .3);
-	if (hspd < 0)	y_angle = lerp(y_angle, -150, .3);
+	if (hspd > 0)	rotation.y = lerp(rotation.y, -30, .3);
+	if (hspd < 0)	rotation.y = lerp(rotation.y, -150, .3);
+
+	if (hspd == 0) animation = 0;
+	else animation -= 1 - 2 * (hspd > 0);
 
 	// Vertical movement
-	if (y - gravity > 0) {
-		vspd -= gravity;
-	}
-	else {
-		if (abs(vspd) > 0) {
-			y_scale = 0.2;
-			x_scale = 1.8;
-		}
-		vspd = 0;
-		y = 0;
-		if (game->input->InputCheck("UP", InputState::PRESSED)) {
+	if (!CheckCollision("Ground", position.x, position.y - gravity)) {
+		vspd = max(vspd - gravity, -.3f);
+	} else {
+		if (game->input->InputCheck("JUMP", InputState::PRESSED)) {
 			vspd = jumpforce;
-			x_scale = 0.2;
-			y_scale = 1.8;
+			scale = glm::vec3(0.2f, 1.8f, 1.0f);
+		}
+	}
+
+	// Check collisions
+	if (CheckCollision("Ground", position.x + hspd, position.y)) {
+		while (!CheckCollision("Ground", position.x + sign(hspd) * 0.01, position.y)) {
+			position.x += sign(hspd) * 0.01;
+		}
+		hspd = 0;
+	}
+
+	if (CheckCollision("Ground", position.x, position.y + vspd)) {
+		while (!CheckCollision("Ground", position.x, position.y + sign(vspd) * 0.01)) {
+			position.y += sign(vspd) * 0.01;
+		}
+		float squash = abs(vspd) / 0.3f;
+		scale = glm::vec3(1.0f + squash, 1.0f - min(squash, 0.9f), 1.0f);
+		vspd = 0;
+	}
+
+	if (CheckCollision("Ground", position.x, position.y)) {
+		int count = 0;
+		float dist = 0.2;
+		float prec = 90;
+		float jump = 0.2;
+
+		glm::vec3 origin = position;
+		while (CheckCollision("Ground", position)) {
+			position.x = origin.x + dist * cos(radians(count * prec));
+			position.y = origin.y + dist * sin(radians(count * prec));
+			count++;
+			if (count == 4) {
+				count = 0;
+				dist += jump;
+			}
 		}
 	}
 
 	if (game->input->InputCheck("EXIT", InputState::PRESSED)) game->End();
 
-	game->camera->position = lerp(game->camera->position, glm::vec3(x, y + 1, z + 5), 0.1);
-	game->camera->lookat = lerp(game->camera->lookat, glm::vec3(x + (2*(y_angle>-50)-1)*0.5, y + 1, z), 0.1);
-	game->camera->up = glm::vec3(0., 1., 0.);
+	game->camera->position = lerp(game->camera->position, position + glm::vec3(0.0f, 1.0f, 5.0f), 0.1f);
+	game->camera->lookat = lerp(game->camera->lookat, position + glm::vec3(0.0f, 1.0f, 0.0f), 0.1);
+	game->camera->up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	x_scale = lerp(x_scale, 1, 0.1);
-	y_scale = lerp(y_scale, 1, 0.1);
-	y += vspd;
-	x += hspd;
+
+	scale = lerp(scale, glm::vec3(1.0f, 1.0f, 1.0f), 0.1f);
+	position += glm::vec3(hspd, vspd, 0);
 };
 
 void Character::DrawSelf() {
@@ -164,7 +207,7 @@ void Character::DrawSelf() {
 	glPushMatrix();
 	Color(white);
 	glTranslatef(0.22, 1., .1);
-	glScalef(.05, ( ((int)animation + 20) % 120 < 10) ? .015 : .1, .1);
+	glScalef(.05, ( ((int)abs(animation) + 20) % 120 < 10) ? .015 : .1, .1);
 	glTranslatef(0., .5, 0.);
 	glutSolidCube(1.);
 	glPopMatrix();
@@ -173,7 +216,7 @@ void Character::DrawSelf() {
 	glPushMatrix();
 	Color(white);
 	glTranslatef(0.22, 1., -.1);
-	glScalef(.05, ( ((int)animation + 20 )%120 < 10 )?.01:.15, .1);
+	glScalef(.05, ( ((int)abs(animation) + 20 )%120 < 10 )?.01:.15, .1);
 	glTranslatef(0., .5, 0.);
 	glutSolidCube(1.);
 	glPopMatrix();
@@ -191,10 +234,10 @@ void Character::DrawSelf() {
 	glPushMatrix();
 	Color(bodyCol);
 	glTranslatef(0., .8, 0.4);
-	if (y == 0) {
+	if (vspd == 0) {
 		if (abs(hspd) > 0)	glRotatef(Wave(-120, 120, 60, 0, animation), 0, 0, 1);
 	} else {
-		glRotatef((y_angle > -50) ? 140 : 0, 0, 0, 1);
+		glRotatef((rotation.y > -50) ? 140 : 0, 0, 0, 1);
 	}
 	glScalef(.2, .4, .2);
 	glTranslatef(0., -.5, 0.);
@@ -205,10 +248,10 @@ void Character::DrawSelf() {
 	glPushMatrix();
 	Color(bodyCol);
 	glTranslatef(0., .8, -0.4);
-	if (y == 0) {
+	if (vspd == 0) {
 		if (abs(hspd) > 0)	glRotatef(Wave(-120, 120, 60, 0, -animation), 0, 0, 1);
 	} else {
-		glRotatef((y_angle > -50) ? 0 : 140, 0, 0, 1);
+		glRotatef((rotation.y > -50) ? 0 : 140, 0, 0, 1);
 	}
 	glScalef(.2, .4, .2);
 	glTranslatef(0., -.5, 0.);
@@ -219,10 +262,10 @@ void Character::DrawSelf() {
 	glPushMatrix();
 	Color(bodyCol);
 	glTranslatef(0., .4, 0.15);
-	if (y == 0) {
+	if (vspd == 0) {
 		if (abs(hspd) > 0)	glRotatef(Wave(-30, 30, 60, 0, -animation), 0, 0, 1);
 	} else {
-		glRotatef((y_angle > -50) ? -30 : 30, 0, 0, 1);
+		glRotatef((rotation.y > -50) ? -30 : 30, 0, 0, 1);
 	}
 	glScalef(.2, .4, .2);
 	glTranslatef(0., -.5, 0.);
@@ -233,10 +276,10 @@ void Character::DrawSelf() {
 	glPushMatrix();
 	Color(bodyCol);
 	glTranslatef(0., .4, -0.15);
-	if (y == 0) {
+	if (vspd == 0) {
 		if (abs(hspd) > 0)	glRotatef(Wave(-30, 30, 60, 0, animation), 0, 0, 1);
 	} else {
-		glRotatef((y_angle > -50)?30:-30, 0, 0, 1);
+		glRotatef((rotation.y > -50)?30:-30, 0, 0, 1);
 	}
 	glScalef(.2, .4, .2);
 	glTranslatef(0., -.5, 0.);
@@ -245,9 +288,26 @@ void Character::DrawSelf() {
 	glPopMatrix();
 };
 
-void Ground::Create() {
-	x_scale = 100;
+void Ground::Update() {
+	margin = glm::vec4(scale.x, 0.0f, 0.0f, scale.y);
 }
 
-void Ground::Update() {
+void Clouds::Create() {
+	for (int i = 0; i < 100; i++) {
+		Cloud* c = new Cloud(rand() % 100 - 50, rand() % 50, -(rand() % 10) -5.0f, 5, 2, 0.1f + 0.2f*(rand() % 100) / 100.f);
+		listOfClouds.push_back(c);
+	}
+}
+
+void Clouds::Draw() {
+	for (Cloud* c : listOfClouds) {
+		glPushMatrix();
+		Color3(200, 200, 200);
+		glTranslatef(c->x, c->y, c->z);
+		glScalef(c->xscale, c->yscale, .01f);
+		glutSolidCube(1);
+		glPopMatrix();
+		c->x += c->speed;
+		if (c->x > 60.0f) c->x = -60.0f;
+	};
 }

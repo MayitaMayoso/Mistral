@@ -26,7 +26,6 @@ class Mistral {
 		int width, height, fov, fps;
 		float AspectRatio;
 
-		unsigned int EntitiesCount() { return EntitiesList.size(); };
 		list<Entity*> EntitiesList;
 
 		Camera* camera;

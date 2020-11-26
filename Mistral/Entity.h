@@ -3,8 +3,9 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
-
-using namespace std;
+#include "glm/glm/glm.hpp"
+#include "glm/glm/gtc/matrix_transform.hpp"
+#include "glm/glm/gtc/type_ptr.hpp"
 
 class Mistral;
 
@@ -14,6 +15,8 @@ class Entity {
 		~Entity();
 
 		void DrawSelfCallback();
+		bool CheckCollision(std::string object, float x, float y);
+		bool CheckCollision(std::string object, glm::vec3 pos);
 
 		virtual void Create() {};
 		virtual void Update() {}; // This method is called in the Timer Function of the main loop.
@@ -23,24 +26,12 @@ class Entity {
 
 		// ------------------- Getters and Setters -----------------------
 		bool visible = true;
-		string get_name();
-		unsigned int get_id();
-		float get_x(), get_y(), get_z();
-		float get_x_scale(), get_y_scale(), get_z_scale();
-		float get_x_angle(), get_y_angle(), get_z_angle();
-		float get_red(), get_green(), get_blue(), get_alpha();
-
-		void set_position( float x_value, float y_value, float z_value ), set_x( float value ), set_y( float value ), set_z( float value );
-		void set_scale(float x_value, float y_value, float z_value), set_x_scale( float value ), set_y_scale( float value ), set_z_scale( float value );
-		void set_angle(float x_value, float y_value, float z_value), set_x_angle( float value ), set_y_angle( float value ), set_z_angle( float value );
-		void set_rgba(float r_value, float g_value, float b_value, float a_value), set_red( float value), set_green( float value), set_blue( float value), set_alpha( float value );
-
-	protected:
+		string GetName();
 		unsigned int id;
-		float x, y, z;
-		float x_scale, y_scale, z_scale;
-		float x_angle, y_angle, z_angle;
-		float red, green, blue, alpha;
+		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
+		glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec4 margin = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 		Mistral* game;
 };

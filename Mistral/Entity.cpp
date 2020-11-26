@@ -9,26 +9,8 @@ using namespace std;
 //    THESE METHODS SHOULD NOT BE OVERWRITTED ON AN INHERITED CLASS
 // ==================================================================
 Entity::Entity(Mistral* g) {
-	x = 0.0f;
-	y = 0.0f;
-	z = 0.0f;
-	x_scale = 1.0;
-	y_scale = 1.0;
-	z_scale = 1.0;
-	x_angle = 0.0;
-	y_angle = 0.0;
-	z_angle = 0.0;
-	red = 1.0;
-	green = 1.0;
-	blue = 1.0;
-	alpha = 1.0;
-
 	game = g;
-
-
 	id = game->EntitiesList.size();
-	game->EntitiesCount();
-
 	g->EntitiesList.push_back(this);
 }
 
@@ -37,96 +19,93 @@ Entity::~Entity() {}
 void Entity::DrawSelfCallback() {
 	if (visible) {
 		glPushMatrix();
-		glColor4f(red, green, blue, alpha);
-		glTranslatef(x, y, z);
-		glScalef(x_scale, y_scale, z_scale);
-		glRotatef(x_angle, 1, 0, 0);
-		glRotatef(y_angle, 0, 1, 0);
-		glRotatef(z_angle, 0, 0, 1);
+		glTranslatef(position.x, position.y, position.z);
+		glScalef(scale.x, scale.y, scale.z);
+		glRotatef(rotation.x, 1, 0, 0);
+		glRotatef(rotation.y, 0, 1, 0);
+		glRotatef(rotation.z, 0, 0, 1);
 		DrawSelf();
 		glPopMatrix();
 	}
 }
 
-// ==================================================================
-//    THESE ARE THE GETTERS AND SETTERS OF THE ENTITY CLASS
-// ==================================================================
-
-// GETTERS
-
-unsigned int Entity::get_id() { return id; }
-
-string Entity::get_name() {
+string Entity::GetName() {
 	string ctype = typeid(*this).name();
 	int len = ctype.length();
 	return ctype.substr(6, len);
 }
 
-float Entity::get_x() { return x; }
+struct BoundingBox {
+	float right;
+	float up;
+	float left;
+	float down;
+};
 
-float Entity::get_y() { return y; }
+bool IsBetween(float val, float min, float max) {
+	return ( val >= min && val <= max );
+}
 
-float Entity::get_z() { return z; }
+bool Entity::CheckCollision(std::string object, float x, float y) {
+	bool isColliding = false;
+	BoundingBox bbox;
 
+	bbox.right	= x + margin[0];
+	bbox.up		= y + margin[1];
+	bbox.left	= x - margin[2];
+	bbox.down	= y - margin[3];
 
-float Entity::get_x_scale() { return x_scale; }
+	BoundingBox bboxOther;
+	for (Entity* e : game->EntitiesList) {
+		if (e->GetName() == object && e->id != id) {
+			bboxOther.right = e->position.x + e->margin[0];
+			bboxOther.up	= e->position.y + e->margin[1];
+			bboxOther.left	= e->position.x - e->margin[2];
+			bboxOther.down	= e->position.y - e->margin[3];
 
-float Entity::get_y_scale() { return y_scale; }
+			bool xColl = IsBetween(bbox.right, bboxOther.left, bboxOther.right)
+				|| IsBetween(bbox.left, bboxOther.left, bboxOther.right);
+			bool yColl = IsBetween(bbox.up, bboxOther.down, bboxOther.up) ||
+				IsBetween(bbox.down, bboxOther.down, bboxOther.up);
 
-float Entity::get_z_scale() { return z_scale; }
+			if (xColl && yColl) {
+				isColliding = true;
+				break;
+			}
+		}
+	}
 
+	return isColliding;
+}
 
-float Entity::get_x_angle() { return x_angle; }
+bool Entity::CheckCollision(std::string object, glm::vec3 pos) {
+	bool isColliding = false;
+	BoundingBox bbox;
 
-float Entity::get_y_angle() { return y_angle; }
+	bbox.right	= pos.x + margin[0];
+	bbox.up		= pos.y + margin[1];
+	bbox.left	= pos.x - margin[2];
+	bbox.down	= pos.y - margin[3];
 
-float Entity::get_z_angle() { return z_angle; }
+	BoundingBox bboxOther;
+	for (Entity* e : game->EntitiesList) {
+		if ( e->GetName() == object && e->id != id) {
+			bboxOther.right = e->position.x + e->margin[0];
+			bboxOther.up	= e->position.y + e->margin[1];
+			bboxOther.left	= e->position.x - e->margin[2];
+			bboxOther.down	= e->position.y - e->margin[3];
 
+			bool xColl = IsBetween(bbox.right, bboxOther.left, bboxOther.right)
+				|| IsBetween(bbox.left, bboxOther.left, bboxOther.right);
+			bool yColl = IsBetween(bbox.up, bboxOther.down, bboxOther.up) ||
+				IsBetween(bbox.down, bboxOther.down, bboxOther.up);
 
-float Entity::get_red() { return red; }
+			if ( xColl && yColl ) {
+				isColliding = true;
+				break;
+			}
+		}
+	}
 
-float Entity::get_green() { return green; }
-
-float Entity::get_blue() { return blue; }
-
-float Entity::get_alpha() { return alpha; }
-
-
-// SETTERS
-
-void Entity::set_position(float x_value, float y_value, float z_value) { x = x_value; y = y_value; z = z_value; }
-
-void Entity::set_x( float value ) { x = value; }
-
-void Entity::set_y( float value ) { y = value; }
-
-void Entity::set_z( float value) { z = value; }
-
-
-void Entity::set_scale(float x_value, float y_value, float z_value) { x_scale = x_value; y_scale = y_value; z_scale = z_value; }
-
-void Entity::set_x_scale( float value ) { x_scale = value; }
-
-void Entity::set_y_scale( float value ) { y_scale = value; }
-
-void Entity::set_z_scale( float value ) { z_scale = value; }
-
-
-void Entity::set_angle(float x_value, float y_value, float z_value) { x_angle = x_value; y_angle = y_value; z_angle = z_value; }
-
-void Entity::set_x_angle( float value ) { x_angle = value; }
-
-void Entity::set_y_angle( float value ) { y_angle = value; }
-
-void Entity::set_z_angle( float value ) { z_angle = value; }
-
-
-void Entity::set_rgba(float r_value, float g_value, float b_value, float a_value) { red = r_value; green = g_value; blue = b_value; alpha = a_value;  }
-
-void Entity::set_red( float value ) { red = value; }
-
-void Entity::set_green( float value ) { green = value; }
-
-void Entity::set_blue( float value ) { blue = value; }
-
-void Entity::set_alpha(float value) { alpha = value; }
+	return isColliding;
+}

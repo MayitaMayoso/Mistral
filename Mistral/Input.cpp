@@ -3,6 +3,7 @@
 void Input::InitializeKeys() {
 
 	addInput("UP", { InputKey::ARROWUP, InputKey::W });
+	addInput("JUMP", { InputKey::ARROWUP, InputKey::W, InputKey::SPACE });
 	addInput("DOWN", { InputKey::ARROWDOWN, InputKey::S });
 	addInput("LEFT", { InputKey::ARROWLEFT, InputKey::A });
 	addInput("RIGHT", { InputKey::ARROWRIGHT, InputKey::D });

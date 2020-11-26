@@ -140,8 +140,16 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 	camera = new Camera(self);
 
 	//====================================
+
 	new Character(self);
 	Entity* e = new Ground(self);
+	e->scale.x = 100;
+	e->position.x -= 5;
+	for (int i = 1; i <= 10; i++) {
+		 e = new Ground(self);
+		e->position = glm::vec3(i, i, 0);
+	}
+	new Clouds(self);
 
 	// ==============================
 	glutDisplayFunc(DrawCallback);
