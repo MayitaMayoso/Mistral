@@ -4,81 +4,32 @@
 #include <iostream>
 #include "GL/glut.h"
 
+
 class Character : public Entity {
-	public:
+public:
 
-		Character(Mistral* g) : Entity(g) { Create(); };
+	Character(Mistral* g) : Entity(g) { Create(); };
 
-		void Create();
+	void Create();
 
-		void Update();
+	void Update();
 
-		void DrawSelf() {
-			glPushMatrix();
-				// Body
-				glPushMatrix();
-					glColor3f(204. / 255., 51. / 255, 153. / 255.);
-					glTranslatef(0., .1, 0.);
-					glScalef(.5, .7, .5);
-					glTranslatef(0., .5, 0.);
-					glutSolidCube(1.);
-				glPopMatrix();
+	void DrawSelf();
 
-				// Head
-				glPushMatrix();
-					glColor3f(204. / 255., 51. / 255, 153. / 255.);
-					glTranslatef(0.1, .7, 0.);
-					glScalef(.5, .5, .5);
-					glTranslatef(0., .5, 0.);
-					glRotatef(-45., 0., 0., 1.);
-					glRotatef(-45., 0., 1., 0.);
-					glutSolidCube(1.);
-				glPopMatrix();
+	float hspd = 0;
+	float vspd = 0;
+	float maxspd = 0.1;
+	float acceleration = 0.01;
+	float gravity = 0.01;
+	float jumpforce = 0.2;
 
-				// Right Arm
-				glPushMatrix();
-					glColor3f(163 / 255., 41 / 255, 122 / 255.);
-					glTranslatef(0.05, .5, 0.3);
-					glScalef(.2, .2, .2);
-					glTranslatef(0., .5, 0.);
-					glutSolidCube(1.);
-				glPopMatrix();
+	int bodyCol[3] = { 102, 25, 77 };
+	int white[3] = { 255, 255, 255 };
+	int black[3] = { 0, 0, 0 };
+	int clothingCol[3] = { 51, 26, 0 };
+	int clothingCol2[3] = { 255, 204, 153 };
 
-				// Left Arm
-				glPushMatrix();
-					glColor3f(163 / 255., 41 / 255, 122 / 255.);
-					glTranslatef(0.05, .5, -0.3);
-					glScalef(.2, .2, .2);
-					glTranslatef(0., .5, 0.);
-					glutSolidCube(1.);
-				glPopMatrix();
-
-				// Right Foot
-				glPushMatrix();
-				glColor3f(163 / 255., 41 / 255, 122 / 255.);
-				glTranslatef(0., .0, 0.3);
-				glScalef(.2, .2, .2);
-				glTranslatef(0., .5, 0.);
-				glutSolidCube(1.);
-				glPopMatrix();
-
-				// Left Foot
-				glPushMatrix();
-				glColor3f(163 / 255., 41 / 255, 122 / 255.);
-				glTranslatef(0., .0, -0.3);
-				glScalef(.3, .3, .3);
-				glTranslatef(0., .5, 0.);
-				glutSolidCube(1.);
-				glPopMatrix();
-			glPopMatrix();
-		};
-
-		float hspd = 0;
-		float vspd = 0;
-		float maxspd = 0.1;
-		float acceleration = 0.01;
-		float gravity = 0.01;
-		float jumpforce = 0.2;
+	float animation = 0;
 };
 
 class Ground : public Entity {

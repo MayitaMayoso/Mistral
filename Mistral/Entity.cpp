@@ -40,6 +40,9 @@ void Entity::DrawSelfCallback() {
 		glColor4f(red, green, blue, alpha);
 		glTranslatef(x, y, z);
 		glScalef(x_scale, y_scale, z_scale);
+		glRotatef(x_angle, 1, 0, 0);
+		glRotatef(y_angle, 0, 1, 0);
+		glRotatef(z_angle, 0, 0, 1);
 		DrawSelf();
 		glPopMatrix();
 	}

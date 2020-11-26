@@ -20,6 +20,7 @@ void init(void) {
 	float diffuseLight[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	float specularLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float LightPosition[] = { 8.0f, 8.0f, 8.0f, 1.0f };
+	float LightPosition2[] = { -8.0f, 8.0f, 8.0f, 1.0f };
 
 	glClearColor(0.0f, 0.7f, 0.8f, 1.0f);  // Clear the screen to black.
 	glShadeModel(GL_SMOOTH);               // Smooth shading in our scenes.
@@ -37,11 +38,18 @@ void init(void) {
 	// Enable our light.
 	glEnable(GL_LIGHT0);
 
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, specularLight);
+	glLightfv(GL_LIGHT1, GL_POSITION, LightPosition2);
+
+	// Enable our light.
+	glEnable(GL_LIGHT1);
+
 	// Set up the material information for our objects.  Again this is just for show.
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_RIGHT, GL_AMBIENT_AND_DIFFUSE);
 	glMaterialfv(GL_FRONT_RIGHT, GL_SPECULAR, specularLight);
-	glMateriali(GL_FRONT_RIGHT, GL_SHININESS, 60);
+	glMateriali(GL_FRONT_RIGHT, GL_SHININESS, 80);
 }
 
 // ------------- INITIALIZING THE ENGINE VARIABLES ---------------
