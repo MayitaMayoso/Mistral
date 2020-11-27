@@ -2,12 +2,15 @@
 
 #include "Input.h"
 #include "Camera.h"
+#include "Scene.h"
 #include "Entity.h"
 #include "GameObjects.h"
 
 class Input;
 
 class Camera;
+
+class Scene;
 
 class Entity;
 
@@ -27,23 +30,26 @@ class Mistral {
 		float AspectRatio;
 
 		list<Entity*> EntitiesList;
+		list<int> EntitiesToDestroy;
+		int idAccumulator = 0;
 
 		Camera* camera;
 		Input* input;
+		Scene* scene;
 	private:
 		int winId;
 		// Main methods and callbacks of these methods
-		virtual void GeneralUpdate(int value);
-		virtual void GeneralDraw();
+		void GeneralUpdate(int value);
+		void GeneralDraw();
 
 		static void UpdateCallback(int value) { self->GeneralUpdate(value); };
 		static void DrawCallback() { self->GeneralDraw(); };
 
 		// Gamepad methods and callbacks of these methods
-		virtual void GeneralPressKeyboard(unsigned char key, int x, int y);
-		virtual void GeneralPressSpecial(int key, int x, int y);
-		virtual void GeneralReleaseKeyboard(unsigned char key, int x, int y);
-		virtual void GeneralReleaseSpecial(int key, int x, int y);
+		void GeneralPressKeyboard(unsigned char key, int x, int y);
+		void GeneralPressSpecial(int key, int x, int y);
+		void GeneralReleaseKeyboard(unsigned char key, int x, int y);
+		void GeneralReleaseSpecial(int key, int x, int y);
 
 		static void KeyboardPressCallback(unsigned char key, int x, int y) { self->GeneralPressKeyboard(key, x, y); };
 		static void SpecialPressCallback(int key, int x, int y) { self->GeneralPressSpecial(key, x, y); };

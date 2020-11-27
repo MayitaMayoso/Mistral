@@ -153,6 +153,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mistral.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="GameObjects.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Mistral.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="glut32.lib" />

@@ -43,11 +43,17 @@ float degrees(float radian) {
 	return radian * (180 / PI);
 }
 
+float random() { return (float)rand() / (float)RAND_MAX; }
+
 void Character::Create() {
 	rotation.y = -30;
 	margin = glm::vec4(0.25f, 0.9f, 0.25f, 0.0f);
 	position.y = 1.0f;
 };
+
+void Character::Destroy() {
+	new Character(game);
+}
 
 void Character::Update() {
 	int hdir = (int)game->input->InputCheck("RIGHT", InputState::HOLD) - (int)game->input->InputCheck("LEFT", InputState::HOLD);
@@ -63,6 +69,7 @@ void Character::Update() {
 	if (hspd == 0) animation = 0;
 	else animation -= 1 - 2 * (hspd > 0);
 
+
 	// Vertical movement
 	if (!CheckCollision("Ground", position.x, position.y - gravity)) {
 		vspd = max(vspd - gravity, -.3f);
@@ -71,6 +78,15 @@ void Character::Update() {
 			vspd = jumpforce;
 			scale = glm::vec3(0.2f, 1.8f, 1.0f);
 		}
+		if ( abs(hspd) > 0 && random() < 0.1f) {
+			Dust* e = new Dust(game);
+			e->position = position;
+			e->yspd = random() * 0.0095 + 0.0005;
+		}
+	}
+
+	if (position.y < -10.0f) {
+		EntityDestroy(id);
 	}
 
 	// Check collisions
@@ -87,6 +103,18 @@ void Character::Update() {
 		}
 		float squash = abs(vspd) / 0.3f;
 		scale = glm::vec3(1.0f + squash, 1.0f - min(squash, 0.9f), 1.0f);
+
+		if (vspd < -0.22) {
+			REPEAT(20) {
+				Dust* e = new Dust(game);
+				e->position = position;
+				float dir = random() * 1.0f - 0.5f;
+				e->position.x += dir;
+				e->xspd = dir * 0.01;
+				e->yspd = random() * 0.005 + 0.005;
+				e->zspd = random() * 0.005 + 0.005;
+			}
+		}
 		vspd = 0;
 	}
 
@@ -336,4 +364,19 @@ void Clouds::Draw() {
 		c->x += c->speed;
 		if (c->x > 60.0f) c->x = -60.0f;
 	};
+<<<<<<< HEAD
 };
+=======
+}
+
+void Dust::Update() {
+	position.y += yspd;
+	position.x += xspd;
+	position.z += zspd;
+	scale = glm::vec3(0.3 + (float)age / (float)life);
+	age++;
+	if (age >= life) {
+		EntityDestroy(id);
+	}
+}
+>>>>>>> 84a5b32eaf6218602eba217a3a62650d30627cad

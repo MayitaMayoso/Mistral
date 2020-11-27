@@ -10,11 +10,10 @@ using namespace std;
 // ==================================================================
 Entity::Entity(Mistral* g) {
 	game = g;
-	id = game->EntitiesList.size();
-	g->EntitiesList.push_back(this);
+	id = game->idAccumulator;
+	game->idAccumulator++;
+	game->EntitiesList.push_back(this);
 }
-
-Entity::~Entity() {}
 
 void Entity::DrawSelfCallback() {
 	if (visible) {
@@ -33,6 +32,10 @@ string Entity::GetName() {
 	string ctype = typeid(*this).name();
 	int len = ctype.length();
 	return ctype.substr(6, len);
+}
+
+void Entity::EntityDestroy(int entityId) {
+	game->EntitiesToDestroy.push_back(entityId);
 }
 
 struct BoundingBox {
