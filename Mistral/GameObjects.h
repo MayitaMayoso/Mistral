@@ -27,11 +27,11 @@ public:
 	float gravity = 0.01;
 	float jumpforce = 0.2;
 
-	int bodyCol[3] = { 102, 25, 77 };
+	int bodyCol[3] = { 255, 69, 0 };
 	int white[3] = { 255, 255, 255 };
-	int black[3] = { 0, 0, 0 };
-	int clothingCol[3] = { 51, 26, 0 };
-	int clothingCol2[3] = { 255, 204, 153 };
+	int black[3] = { 40, 3, 3 };
+	int clothingCol[3] = { 186, 53, 0 };
+	int clothingCol2[3] = { 160, 82, 45 };
 
 	float animation = 0;
 };
