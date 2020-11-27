@@ -11,14 +11,15 @@ class Mistral;
 
 class Entity {
 	public:
-		Entity( Mistral* g ); // Class constructor. Initializes all the Entities built-in variables.
-		~Entity();
+		Entity(Mistral* g); // Class constructor. Initializes all the Entities built-in variables.
 
 		void DrawSelfCallback();
 		bool CheckCollision(std::string object, float x, float y);
 		bool CheckCollision(std::string object, glm::vec3 pos);
+		void EntityDestroy(int id);
 
 		virtual void Create() {};
+		virtual void Destroy() {};
 		virtual void Update() {}; // This method is called in the Timer Function of the main loop.
 		virtual void Draw() {}; // Draws the Entitys body. Position, scale and angle affects how the bodys is drawn.
 		virtual void DrawSelf() {}; // Same as the draw event but is affected by the transformations

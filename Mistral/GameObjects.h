@@ -8,11 +8,17 @@
 
 #define Color(col) { glColor3f(col[0]/255., col[1]/255., col[2]/255.); };
 #define Color3(r, g, b) { glColor3f(r/255., g/255., b/255.); };
+#define GREY(val) { glColor3f(val/255., val/255., val/255.); };
+#define PUSH glPushMatrix();
+#define POP glPopMatrix();
+#define PRINT(str) { std::cout << str << std::endl; };
+#define REPEAT(n) for(int i=0 ; i<n ; i++)
 
 class Character : public Entity {
 public:
-
 	Character(Mistral* g) : Entity(g) { Create(); };
+
+	void Destroy();
 
 	void Create();
 
@@ -81,4 +87,24 @@ public:
 	void Draw();
 
 	list<Cloud*> listOfClouds;
+};
+
+class Dust : public Entity {
+public:
+	Dust(Mistral* g) : Entity(g) { Create(); };
+
+	void Update();
+
+	void DrawSelf() {
+		PUSH
+			GREY(150);
+			glutSolidCube(0.2);
+		POP
+	}
+
+	int age = 0;
+	int life = 40;
+	float yspd = 0.01f;
+	float xspd = 0.0f;
+	float zspd = 0.0f;
 };

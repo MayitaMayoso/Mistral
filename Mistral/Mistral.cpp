@@ -63,6 +63,8 @@ Mistral::Mistral() {
 	winId = 0;
 
 	input = new Input();
+	camera = new Camera(this);
+	scene = new Scene(this);
 }
 
 void Mistral::GeneralDraw() {
@@ -99,6 +101,18 @@ void Mistral::GeneralUpdate(int value) {
 	camera->UpdateCamera();
 
 	// Draw all the entities
+	for (int id : EntitiesToDestroy) {
+		for (Entity* e : EntitiesList) {
+			if (e->id == id) {
+				e->Destroy();
+				EntitiesList.remove(e);
+				delete e;
+				break;
+			}
+		}
+	}
+	EntitiesToDestroy.clear();
+
 	for (Entity* e : EntitiesList) {
 		e->Update();
 	}
@@ -137,21 +151,8 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 	winId = glutCreateWindow("Mistral");
 	init();
 
-	camera = new Camera(self);
+	scene->Load("C:/Users/molin/Downloads/level.csv");
 
-	//====================================
-
-	new Character(self);
-	Entity* e = new Ground(self);
-	e->scale.x = 100;
-	e->position.x -= 5;
-	for (int i = 1; i <= 10; i++) {
-		 e = new Ground(self);
-		e->position = glm::vec3(i, i, 0);
-	}
-	new Clouds(self);
-
-	// ==============================
 	glutDisplayFunc(DrawCallback);
 	glutTimerFunc(int(1000 / fps), UpdateCallback, 0);
 
@@ -165,8 +166,6 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 }
 
 int main(int argc, char* args[]) {
-	std::cout << "Hello world";
-
 	Mistral* game = new Mistral();
 
 	game->Run(argc, args, game);
