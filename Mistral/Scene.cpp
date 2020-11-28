@@ -30,6 +30,10 @@ void Scene::Load(std::string path) {
 					Entity* e = new Character(game);
 					e->position = glm::vec3(x, y, 0);
 				}
+				if (c == 'E') {
+					Entity* e = new Enemy(game);
+					e->position = glm::vec3(x, y, 0);
+				}
 			}
 		}
 		y++;

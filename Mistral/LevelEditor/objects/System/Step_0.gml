@@ -31,3 +31,5 @@ switch(state) {
 	case S.EXPORT:
 		break;
 }
+
+if keyboard_check_pressed(vk_escape) get_open_filename("", "");

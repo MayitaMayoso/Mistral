@@ -6,13 +6,17 @@
 #include "Math.h"
 
 
-#define Color(col) { glColor3f(col[0]/255., col[1]/255., col[2]/255.); };
-#define Color3(r, g, b) { glColor3f(r/255., g/255., b/255.); };
+#define COLOR(col) { glColor3f(col[0]/255., col[1]/255., col[2]/255.); };
+#define COLOR3(r, g, b) { glColor3f(r/255., g/255., b/255.); };
 #define GREY(val) { glColor3f(val/255., val/255., val/255.); };
 #define PUSH glPushMatrix();
 #define POP glPopMatrix();
 #define PRINT(str) { std::cout << str << std::endl; };
 #define REPEAT(n) for(int i=0 ; i<n ; i++)
+#define CUBE glutSolidCube(1.0f);
+#define TRANSLATE(x, y, z) glTranslatef(x, y, z);
+#define SCALE(x, y, z) glScalef(x, y, z);
+#define ROTATE(angle, x, y, z) glRotatef(angle, x, y, z);
 
 class Character : public Entity {
 public:
@@ -107,4 +111,17 @@ public:
 	float yspd = 0.01f;
 	float xspd = 0.0f;
 	float zspd = 0.0f;
+};
+
+class Enemy : public Entity {
+public:
+	Enemy(Mistral* g) : Entity(g) { Create(); };
+
+	void DrawSelf() {
+		PUSH
+			COLOR3(200, 100, 0)
+			TRANSLATE(0, 0.5, 0)
+			CUBE
+		POP
+	}
 };

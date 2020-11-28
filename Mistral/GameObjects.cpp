@@ -152,7 +152,7 @@ void Character::DrawSelf() {
 
 	// Body Upper
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(0., .15, 0.);
 	glScalef(.5, .7, .55);
 	glTranslatef(0., .5, 0.);
@@ -161,7 +161,7 @@ void Character::DrawSelf() {
 
 	// Clothes Base
 	glPushMatrix();
-	Color(clothingCol);
+	COLOR(clothingCol);
 	glTranslatef(0., .15, 0.);
 	glScalef(.55, .5, .6);
 	glTranslatef(0., .5, 0.);
@@ -170,7 +170,7 @@ void Character::DrawSelf() {
 
 	// Clothes Right
 	glPushMatrix();
-	Color(clothingCol);
+	COLOR(clothingCol);
 	glTranslatef(0., .5, .15);
 	glScalef(.525, .25, .15);
 	glTranslatef(0., 1., 0.);
@@ -179,7 +179,7 @@ void Character::DrawSelf() {
 
 	// Clothes Left
 	glPushMatrix();
-	Color(clothingCol);
+	COLOR(clothingCol);
 	glTranslatef(0., .5, -.15);
 	glScalef(.525, .25, .15);
 	glTranslatef(0., 1., 0.);
@@ -188,7 +188,7 @@ void Character::DrawSelf() {
 
 	// Button Right
 	glPushMatrix();
-	Color(clothingCol2);
+	COLOR(clothingCol2);
 	glTranslatef(.3, .5, .15);
 	glScalef(.025, .1, .1);
 	glTranslatef(0., 1., 0.);
@@ -197,7 +197,7 @@ void Character::DrawSelf() {
 
 	// Button Left
 	glPushMatrix();
-	Color(clothingCol2);
+	(clothingCol2);
 	glTranslatef(.3, .5, -.15);
 	glScalef(.05, .08, .1);
 	glTranslatef(0., 1., 0.);
@@ -206,7 +206,7 @@ void Character::DrawSelf() {
 
 	//Pocket
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(.3, .4, .0);
 	glScalef(.04, .05, .35);
 	glTranslatef(0., 1., 0.);
@@ -214,7 +214,7 @@ void Character::DrawSelf() {
 	glPopMatrix();
 
 	glPushMatrix();
-	Color(clothingCol2);
+	COLOR(clothingCol2);
 	glTranslatef(.3, .15, .0);
 	glScalef(.03, .2, .3);
 	glTranslatef(0., 1., 0.);
@@ -223,7 +223,7 @@ void Character::DrawSelf() {
 
 	// Head
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(0., .7, 0.);
 	glScalef(.4, .45, .47);
 	glTranslatef(0., .5, 0.);
@@ -232,7 +232,7 @@ void Character::DrawSelf() {
 
 	// Ear Right
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(0., 1.05, .2);
 	glScalef(.1, .2, .2);
 	glTranslatef(0., .5, 0.);
@@ -241,7 +241,7 @@ void Character::DrawSelf() {
 
 	// Ear Left
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(0., 1.05, -.2);
 	glScalef(.1, .2, .2);
 	glTranslatef(0., .5, 0.);
@@ -250,7 +250,7 @@ void Character::DrawSelf() {
 
 	// Eye Right
 	glPushMatrix();
-	Color(white);
+	COLOR(white);
 	glTranslatef(0.22, 1., .1);
 	glScalef(.05, ( ((int)abs(animation) + 20) % 120 < 10) ? .015 : .1, .1);
 	glTranslatef(0., .5, 0.);
@@ -259,7 +259,7 @@ void Character::DrawSelf() {
 
 	// Eye Left
 	glPushMatrix();
-	Color(white);
+	COLOR(white);
 	glTranslatef(0.22, 1., -.1);
 	glScalef(.05, ( ((int)abs(animation) + 20 )%120 < 10 )?.01:.15, .1);
 	glTranslatef(0., .5, 0.);
@@ -268,7 +268,7 @@ void Character::DrawSelf() {
 
 	// Nose
 	glPushMatrix();
-	Color(black);
+	COLOR(black);
 	glTranslatef(0.3, .9, 0.);
 	glScalef(.05, .09, .09);
 	glTranslatef(0., .5, 0.);
@@ -276,7 +276,7 @@ void Character::DrawSelf() {
 	glPopMatrix();
 
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(0.22, .85, 0.);
 	glScalef(.15, .15, .3);
 	glTranslatef(0., .5, 0.);
@@ -285,7 +285,7 @@ void Character::DrawSelf() {
 
 	// Right Arm
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(.1, .8, 0.4);
 	if (vspd == 0) {
 		if (abs(hspd) > 0)	glRotatef(Wave(-120, 120, 60, 0, animation), 0, 0, 1);
@@ -299,7 +299,7 @@ void Character::DrawSelf() {
 
 	// Left Arm
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(.1, .8, -0.4);
 	if (vspd == 0) {
 		if (abs(hspd) > 0)	glRotatef(Wave(-120, 120, 60, 0, -animation), 0, 0, 1);
@@ -313,7 +313,7 @@ void Character::DrawSelf() {
 
 	// Right Foot
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(0., .4, 0.15);
 	if (vspd == 0) {
 		if (abs(hspd) > 0)	glRotatef(Wave(-30, 30, 60, 0, -animation), 0, 0, 1);
@@ -327,7 +327,7 @@ void Character::DrawSelf() {
 
 	// Left Foot
 	glPushMatrix();
-	Color(bodyCol);
+	COLOR(bodyCol);
 	glTranslatef(0., .4, -0.15);
 	if (vspd == 0) {
 		if (abs(hspd) > 0)	glRotatef(Wave(-30, 30, 60, 0, animation), 0, 0, 1);
@@ -356,7 +356,7 @@ void Clouds::Create() {
 void Clouds::Draw() {
 	for (Cloud* c : listOfClouds) {
 		glPushMatrix();
-		Color3(200, 200, 200);
+		COLOR3(200, 200, 200);
 		glTranslatef(c->x, c->y, c->z);
 		glScalef(c->xscale, c->yscale, .01f);
 		glutSolidCube(1);
@@ -364,9 +364,6 @@ void Clouds::Draw() {
 		c->x += c->speed;
 		if (c->x > 60.0f) c->x = -60.0f;
 	};
-<<<<<<< HEAD
-};
-=======
 }
 
 void Dust::Update() {
@@ -379,4 +376,3 @@ void Dust::Update() {
 		EntityDestroy(id);
 	}
 }
->>>>>>> 84a5b32eaf6218602eba217a3a62650d30627cad
