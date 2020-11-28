@@ -5,6 +5,8 @@
 #include "Scene.h"
 #include "Entity.h"
 #include "GameObjects.h"
+#include "Audio.h"
+#include "AudioSource.h"
 
 class Input;
 
@@ -13,6 +15,10 @@ class Camera;
 class Scene;
 
 class Entity;
+
+class Audio;
+
+class AudioSource;
 
 class Mistral {
 	public:
@@ -36,6 +42,8 @@ class Mistral {
 		Camera* camera;
 		Input* input;
 		Scene* scene;
+		Audio* audio;
+		AudioSource* source;
 	private:
 		int winId;
 		// Main methods and callbacks of these methods

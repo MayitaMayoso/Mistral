@@ -65,6 +65,11 @@ Mistral::Mistral() {
 	input = new Input();
 	camera = new Camera(this);
 	scene = new Scene(this);
+
+	audio = new Audio();
+	int buf = audio->loadSound("Ressources/GameMusic.wav");
+	auto music = new AudioSource();
+	music->playSound(buf);
 }
 
 void Mistral::GeneralDraw() {
