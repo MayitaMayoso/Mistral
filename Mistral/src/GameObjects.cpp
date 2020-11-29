@@ -75,6 +75,9 @@ void Character::Update() {
 		vspd = max(vspd - gravity, -.3f);
 	} else {
 		if (game->input->InputCheck("JUMP", InputState::PRESSED)) {
+			int buf = game->audio->loadSound("resources/jump.wav");
+			auto jump = new AudioSource();
+			jump->playSound(buf);
 			vspd = jumpforce;
 			scale = glm::vec3(0.2f, 1.8f, 1.0f);
 		}
