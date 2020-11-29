@@ -2,6 +2,14 @@
 #include "Entity.h"
 #include "Camera.h"
 
+template<typename T>
+bool IsIn(T value, list<T> values) {
+	for (T v : values)
+		if (v == value) return true;
+	return false;
+}
+
+
 
 using namespace std;
 
@@ -46,7 +54,10 @@ struct BoundingBox {
 };
 
 bool IsBetween(float val, float min, float max) {
-	return ( val >= min && val <= max );
+	if (min<max)
+		return ( val >= min && val <= max );
+	else
+		return (val <= min && val >= max);
 }
 
 bool Entity::CheckCollision(std::string object, float x, float y) {
@@ -82,28 +93,32 @@ bool Entity::CheckCollision(std::string object, float x, float y) {
 }
 
 bool Entity::CheckCollision(std::string object, glm::vec3 pos) {
+	return CheckCollision(object, pos.x, pos.y);
+}
+
+bool Entity::CheckCollision(std::list<std::string> objects, float x, float y) {
 	bool isColliding = false;
 	BoundingBox bbox;
 
-	bbox.right	= pos.x + margin[0];
-	bbox.up		= pos.y + margin[1];
-	bbox.left	= pos.x - margin[2];
-	bbox.down	= pos.y - margin[3];
+	bbox.right = x + margin[0];
+	bbox.up = y + margin[1];
+	bbox.left = x - margin[2];
+	bbox.down = y - margin[3];
 
 	BoundingBox bboxOther;
 	for (Entity* e : game->EntitiesList) {
-		if ( e->GetName() == object && e->id != id) {
+		if (IsIn(e->GetName(), objects) && e->id != id) {
 			bboxOther.right = e->position.x + e->margin[0];
-			bboxOther.up	= e->position.y + e->margin[1];
-			bboxOther.left	= e->position.x - e->margin[2];
-			bboxOther.down	= e->position.y - e->margin[3];
+			bboxOther.up = e->position.y + e->margin[1];
+			bboxOther.left = e->position.x - e->margin[2];
+			bboxOther.down = e->position.y - e->margin[3];
 
 			bool xColl = IsBetween(bbox.right, bboxOther.left, bboxOther.right)
 				|| IsBetween(bbox.left, bboxOther.left, bboxOther.right);
 			bool yColl = IsBetween(bbox.up, bboxOther.down, bboxOther.up) ||
 				IsBetween(bbox.down, bboxOther.down, bboxOther.up);
 
-			if ( xColl && yColl ) {
+			if (xColl && yColl) {
 				isColliding = true;
 				break;
 			}
@@ -111,4 +126,8 @@ bool Entity::CheckCollision(std::string object, glm::vec3 pos) {
 	}
 
 	return isColliding;
+}
+
+bool Entity::CheckCollision(std::list<std::string> objects, glm::vec3 pos) {
+	return CheckCollision(objects, pos.x, pos.y);
 }

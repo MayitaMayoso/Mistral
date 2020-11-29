@@ -17,6 +17,9 @@
 #define TRANSLATE(x, y, z) glTranslatef(x, y, z);
 #define SCALE(x, y, z) glScalef(x, y, z);
 #define ROTATE(angle, x, y, z) glRotatef(angle, x, y, z);
+#define BEGIN glBegin(GL_QUADS);
+#define VERTEX(x, y, z) glVertex3f(x, y, z);
+#define END glEnd();
 
 class Character : public Entity {
 public:
@@ -37,10 +40,10 @@ public:
 	float gravity = 0.01;
 	float jumpforce = 0.2;
 
-	int bodyCol[3] = { 255, 69, 0 };
+	int bodyCol[3] = { 255, 150, 0 };
 	int white[3] = { 255, 255, 255 };
-	int black[3] = { 40, 3, 3 };
-	int clothingCol[3] = { 186, 53, 0 };
+	int black[3] = { 0, 0, 0 };
+	int clothingCol[3] = { 255, 82, 0 };
 	int clothingCol2[3] = { 160, 82, 45 };
 
 	float animation = 0;
@@ -48,26 +51,184 @@ public:
 
 class Ground : public Entity {
 public:
-
 	Ground(Mistral* g) : Entity(g) { Create(); };
 
 	void Update();
 
 	void DrawSelf() {
-		glPushMatrix();
-			glColor3f(0., 150. / 255., 50. / 255.);
-			glScalef(1., .3, 1.);
-			glTranslatef(0.5, -0.5, 0.);
-			glutSolidCube(1);
-		glPopMatrix();
+		PUSH
+			BEGIN
+			COLOR3(102, 50, 0)
 
-		glPushMatrix();
-			glColor3f(102. / 255., 50. / 255., 0.);
-			glTranslatef(0., -0.3, 0.);
-			glScalef(1., .7, 1.);
-			glTranslatef(0.5, -0.5, 0.);
-			glutSolidCube(1);
-		glPopMatrix();
+			VERTEX(0, 0, .5)
+			VERTEX(1, 0, .5)
+			VERTEX(1, -1, .5)
+			VERTEX(0, -1, .5)
+
+
+			VERTEX(0, -1, .5)
+			VERTEX(1, -1, .5)
+			VERTEX(1, -1, -.5)
+			VERTEX(0, -1, -.5)
+			END
+		POP
+	};
+};
+
+class Grass : public Ground {
+public:
+	Grass(Mistral* g) : Ground(g) { Create(); };
+
+	void DrawSelf() {
+		PUSH
+		BEGIN
+		COLOR3(0, 150, 50)
+
+		VERTEX(0, 0, -.5)
+		VERTEX(1, 0, -.5)
+		VERTEX(1, 0, .5)
+		VERTEX(0, 0, .5)
+
+		VERTEX(0, 0, .5)
+		VERTEX(1, 0, .5)
+		VERTEX(1, -.4, .5)
+		VERTEX(0, -.4, .5)
+
+		COLOR3(102, 50, 0)
+
+		VERTEX(0, -.4, .5)
+		VERTEX(1, -.4, .5)
+		VERTEX(1, -1, .5)
+		VERTEX(0, -1, .5)
+
+		VERTEX(0, -1, .5)
+		VERTEX(1, -1, .5)
+		VERTEX(1, -1, -.5)
+		VERTEX(0, -1, -.5)
+		END
+		POP
+	};
+};
+
+
+class GroundCorner : public Ground {
+public:
+	GroundCorner(Mistral* g) : Ground(g) { Create(); };
+
+	void DrawSelf() {
+		PUSH
+			BEGIN
+			COLOR3(102, 50, 0)
+
+			// Top grass
+			VERTEX(0, 0, -.5)
+			VERTEX(1, 0, -.5)
+			VERTEX(1, 0, .5)
+			VERTEX(0, 0, .5)
+
+			// Bottom grass
+			VERTEX(0, -.4, -.5)
+			VERTEX(1, -.4, -.5)
+			VERTEX(1, -.4, .5)
+			VERTEX(0, -.4, .5)
+
+			// Front grass
+			VERTEX(0, 0, .5)
+			VERTEX(1, 0, .5)
+			VERTEX(1, -.4, .5)
+			VERTEX(0, -.4, .5)
+
+			// Side Grass
+			VERTEX(1, 0, -.5)
+			VERTEX(1, -.4, -.5)
+			VERTEX(1, -.4, .5)
+			VERTEX(1, 0, .5)
+
+			// Front ground
+			VERTEX(0, -.4, .5)
+			VERTEX(.5, -.4, .5)
+			VERTEX(.5, -1, .5)
+			VERTEX(0, -1, .5)
+
+			// Right ground
+			VERTEX(.5, -.4, .5)
+			VERTEX(.5, -.4, -.5)
+			VERTEX(.5, -1, -.5)
+			VERTEX(.5, -1, .5)
+
+			// Left ground
+			VERTEX(0, 0, .5)
+			VERTEX(0, 0, -.5)
+			VERTEX(0, -1, -.5)
+			VERTEX(0, -1, .5)
+
+			// Bottom ground
+			VERTEX(0, -1, .5)
+			VERTEX(.5, -1, .5)
+			VERTEX(.5, -1, -.5)
+			VERTEX(0, -1, -.5)
+
+			END
+			POP
+	};
+};
+
+
+class GrassCorner : public Ground {
+public:
+	GrassCorner(Mistral* g) : Ground(g) { Create(); };
+
+	void DrawSelf() {
+		PUSH
+			BEGIN
+			COLOR3(0, 150, 50)
+
+			// Top grass
+			VERTEX(0, 0, -.5)
+			VERTEX(1, 0, -.5)
+			VERTEX(1, 0, .5)
+			VERTEX(0, 0, .5)
+
+			// Bottom grass
+			VERTEX(0, -.4, -.5)
+			VERTEX(1, -.4, -.5)
+			VERTEX(1, -.4, .5)
+			VERTEX(0, -.4, .5)
+
+			// Front grass
+			VERTEX(0, 0, .5)
+			VERTEX(1, 0, .5)
+			VERTEX(1, -.4, .5)
+			VERTEX(0, -.4, .5)
+
+			// Side Grass
+			VERTEX(1, 0, -.5)
+			VERTEX(1, -.4, -.5)
+			VERTEX(1, -.4, .5)
+			VERTEX(1, 0, .5)
+
+			COLOR3(102, 50, 0)
+
+			// Front ground
+			VERTEX(0, -.4, .5)
+			VERTEX(.5, -.4, .5)
+			VERTEX(.5, -1, .5)
+			VERTEX(0, -1, .5)
+
+			// Side ground
+			VERTEX(.5, -.4, .5)
+			VERTEX(.5, -.4, -.5)
+			VERTEX(.5, -1, -.5)
+			VERTEX(.5, -1, .5)
+
+			// Bottom ground
+			VERTEX(0, -1, .5)
+			VERTEX(.5, -1, .5)
+			VERTEX(.5, -1, -.5)
+			VERTEX(0, -1, -.5)
+
+			END
+			POP
 	};
 };
 

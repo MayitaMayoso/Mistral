@@ -14,8 +14,11 @@ class Entity {
 		Entity(Mistral* g); // Class constructor. Initializes all the Entities built-in variables.
 
 		void DrawSelfCallback();
+
 		bool CheckCollision(std::string object, float x, float y);
 		bool CheckCollision(std::string object, glm::vec3 pos);
+		bool CheckCollision(std::list<std::string> objects, float x, float y);
+		bool CheckCollision(std::list<std::string> objects, glm::vec3 pos);
 		void EntityDestroy(int id);
 
 		virtual void Create() {};

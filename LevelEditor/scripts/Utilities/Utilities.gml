@@ -85,13 +85,13 @@ function Grey(val) {
 	return make_color_rgb(val, val, val);
 }
 
-function snap(val) {
+function Snap(val) {
 	return PPU * ( val div PPU ) - PPU*(val<0);
 }
 
 function Split(text, delimiter) {
 	var slot = 0;
-	var splits; //array to hold all splits
+	var splits = []; //array to hold all splits
 	var str2 = ""; //var to hold the current split we're working on building
 	if (!is_array(delimiter)) delimiter = [delimiter];
 
@@ -107,5 +107,26 @@ function Split(text, delimiter) {
 	    }
 	}
 	
-	return splits;
+	if ( array_length(splits) == 0 ) return -1
+	else return splits;
+}
+
+function Rectangle(x1, y1, x2, y2, color, width) {
+	if ( width > 0 ) {
+		var xhw = (x1<x2)?width/2:-width/2;
+		var yhw = (y1<y2)?width/2:-width/2;
+		draw_line_width_color(x1 + xhw,	 y1,		 x1 + xhw,	 y2,		width, color, color); // left
+		draw_line_width_color(x2 - xhw,	 y1,		 x2 - xhw,	 y2,		width, color, color); // right
+		draw_line_width_color(x1,		 y1 + yhw,	 x2,		 y1 + yhw,	width, color, color); // bottom
+		draw_line_width_color(x1,		 y2 - yhw,	 x2,		 y2 - yhw,	width, color, color); // top
+	} else {
+		x1 += 1; y1 += 1;
+		draw_rectangle_color(x1, y1, x2, y2, color, color, color, color, false);
+	}
+}
+
+function Sprite(sprite, subimage, x, y, xscale, yscale, alpha) {
+	var x1 = x+1;
+	var y1 = y+1;
+	draw_sprite_ext(sprite, subimage, x1, y1, xscale, yscale, 0, c_white, alpha);
 }

@@ -4,6 +4,38 @@ Scene::Scene(Mistral* g) {
 	game = g;
 }
 
+void Scene::Instantiate(string data[5]) {
+	if (data[0] == "CHARACTER") {
+		Entity* e = new Character(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+	}
+
+	if (data[0] == "GROUND") {
+		Entity* e = new Ground(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+	}
+
+	if (data[0] == "GRASS") {
+		Entity* e = new Grass(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+	}
+
+	if (data[0] == "GROUND_CORNER") {
+		Entity* e = new GroundCorner(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+	}
+
+	if (data[0] == "GRASS_CORNER") {
+		Entity* e = new GrassCorner(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+	}
+}
+
 
 void Scene::Load(std::string name) {
 
@@ -18,26 +50,20 @@ void Scene::Load(std::string name) {
 		file.close();
 	}
 
-	int y = 0;
 	for( string line : level ) {
-		int x = -1;
+		string item = "";
+		string data[5];
 		for (char c : line ) {
-			if ( c == ',') x++;
-			else {
-				if ( c == 'G') {
-					Entity* e = new Ground(game);
-					e->position = glm::vec3(x, y, 0);
-				}
-				if ( c == 'C') {
-					Entity* e = new Character(game);
-					e->position = glm::vec3(x, y, 0);
-				}
-				if (c == 'E') {
-					Entity* e = new Enemy(game);
-					e->position = glm::vec3(x, y, 0);
-				}
-			}
+			if (c == ',') {
+				if (data[0] == "") data[0] = item;
+				else if (data[1] == "") data[1] = item;
+				else if (data[2] == "") data[2] = item;
+				else if (data[3] == "") data[3] = item;
+				item = "";
+			} else item += c;
 		}
-		y++;
+		data[4] = item;
+
+		Instantiate(data);
 	}
 }

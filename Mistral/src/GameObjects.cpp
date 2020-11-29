@@ -6,6 +6,7 @@
 
 #define PI 3.14159265358979323
 
+std::list<std::string> colliders = { "Ground", "Grass", "GroundCorner", "GrassCorner" };
 
 float Wave(float from, float to, float duration, float offset, float W) {
 	float A = float((to - from) * 0.5);
@@ -47,7 +48,7 @@ float random() { return (float)rand() / (float)RAND_MAX; }
 
 void Character::Create() {
 	rotation.y = -30;
-	margin = glm::vec4(0.25f, 0.9f, 0.25f, 0.0f);
+	margin = glm::vec4(0.25f, 0.7f, 0.25f, 0.0f);
 	position.y = 1.0f;
 };
 
@@ -69,9 +70,8 @@ void Character::Update() {
 	if (hspd == 0) animation = 0;
 	else animation -= 1 - 2 * (hspd > 0);
 
-
 	// Vertical movement
-	if (!CheckCollision("Ground", position.x, position.y - gravity)) {
+	if (!CheckCollision(colliders, position.x, position.y - gravity)) {
 		vspd = max(vspd - gravity, -.3f);
 	} else {
 		if (game->input->InputCheck("JUMP", InputState::PRESSED)) {
@@ -79,7 +79,8 @@ void Character::Update() {
 			auto jump = new AudioSource();
 			jump->playSound(buf);
 			vspd = jumpforce;
-			scale = glm::vec3(0.2f, 1.8f, 1.0f);
+			if (!CheckCollision(colliders, position.x, position.y + jumpforce * 2))
+				scale = glm::vec3(0.2f, 1.4f, 1.0f);
 		}
 		if ( abs(hspd) > 0 && random() < 0.1f) {
 			Dust* e = new Dust(game);
@@ -93,20 +94,21 @@ void Character::Update() {
 	}
 
 	// Check collisions
-	if (CheckCollision("Ground", position.x + hspd, position.y)) {
-		while (!CheckCollision("Ground", position.x + sign(hspd) * 0.01, position.y)) {
+	if (CheckCollision(colliders, position.x + hspd, position.y)) {
+		while (!CheckCollision(colliders, position.x + sign(hspd) * 0.01, position.y)) {
 			position.x += sign(hspd) * 0.01;
 		}
 		hspd = 0;
 	}
 
-	if (CheckCollision("Ground", position.x, position.y + vspd)) {
-		while (!CheckCollision("Ground", position.x, position.y + sign(vspd) * 0.01)) {
+	if (CheckCollision(colliders, position.x, position.y + vspd)) {
+		while (!CheckCollision(colliders, position.x, position.y + sign(vspd) * 0.01)) {
 			position.y += sign(vspd) * 0.01;
 		}
-		float squash = abs(vspd) / 0.3f;
-		scale = glm::vec3(1.0f + squash, 1.0f - min(squash, 0.9f), 1.0f);
-
+		if (vspd < -0.15) {
+			float squash = 0.6*abs(vspd) / 0.3f;
+			scale = glm::vec3(.7f + squash, .7f - squash, 1.0f);
+		}
 		if (vspd < -0.22) {
 			REPEAT(20) {
 				Dust* e = new Dust(game);
@@ -121,14 +123,14 @@ void Character::Update() {
 		vspd = 0;
 	}
 
-	if (CheckCollision("Ground", position.x, position.y)) {
+	if (CheckCollision(colliders, position.x, position.y)) {
 		int count = 0;
 		float dist = 0.2;
 		float prec = 90;
 		float jump = 0.2;
 
 		glm::vec3 origin = position;
-		while (CheckCollision("Ground", position)) {
+		while (CheckCollision(colliders, position)) {
 			position.x = origin.x + dist * cos(radians(count * prec));
 			position.y = origin.y + dist * sin(radians(count * prec));
 			count++;
@@ -141,12 +143,12 @@ void Character::Update() {
 
 	if (game->input->InputCheck("EXIT", InputState::PRESSED)) game->End();
 
-	game->camera->position = lerp(game->camera->position, position + glm::vec3(0.0f, 1.0f, 5.0f), 0.1f);
+	game->camera->position = lerp(game->camera->position, position + glm::vec3(0.0f, 1.0f, 3.0f), 0.1f);
 	game->camera->lookat = lerp(game->camera->lookat, position + glm::vec3(0.0f, 1.0f, 0.0f), 0.1);
 	game->camera->up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 
-	scale = lerp(scale, glm::vec3(1.0f, 1.0f, 1.0f), 0.1f);
+	scale = lerp(scale, glm::vec3(.7f, .7f, .7f), 0.1f);
 	position += glm::vec3(hspd, vspd, 0);
 };
 

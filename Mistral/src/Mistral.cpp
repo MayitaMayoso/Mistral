@@ -32,6 +32,8 @@ void init(void) {
 
 	// Enable our light.
 	glEnable(GL_LIGHT0);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_AUTO_NORMAL);
 
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuseLight);
 	glLightfv(GL_LIGHT1, GL_SPECULAR, specularLight);
