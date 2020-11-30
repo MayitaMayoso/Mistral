@@ -11,6 +11,12 @@ void Scene::Instantiate(string data[5]) {
 		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
 	}
 
+	if (data[0] == "ENEMY_1") {
+		Entity* e = new Enemy1(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+	}
+
 	if (data[0] == "GROUND") {
 		Entity* e = new Ground(game);
 		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);

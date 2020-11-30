@@ -94,7 +94,7 @@ void Character::Update() {
 	}
 
 	// Check collisions
-	if (CheckCollision(colliders, position.x + hspd, position.y)) {
+	if (CheckCollision(colliders, position.x + hspd, position.y)) { 
 		while (!CheckCollision(colliders, position.x + sign(hspd) * 0.01, position.y)) {
 			position.x += sign(hspd) * 0.01;
 		}
@@ -380,4 +380,18 @@ void Dust::Update() {
 	if (age >= life) {
 		EntityDestroy(id);
 	}
+}
+
+void Enemy1::Create() {
+	margin = glm::vec4(0.25f, 0.7f, 0.25f, 0.0f);
+}
+
+void Enemy1::Update() {
+	if (!CheckCollision(colliders, position.x, position.y - gravity)) {
+		vspd -= gravity;
+	} else {
+		vspd = 0;
+	}
+
+	position += glm::vec3(hspd, vspd, 0);
 }

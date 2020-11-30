@@ -274,15 +274,24 @@ public:
 	float zspd = 0.0f;
 };
 
-class Enemy : public Entity {
+class Enemy1 : public Entity {
 public:
-	Enemy(Mistral* g) : Entity(g) { Create(); };
+	Enemy1(Mistral* g) : Entity(g) { Create(); };
+
+	void Create();
+
+	void Update();
 
 	void DrawSelf() {
 		PUSH
 			COLOR3(200, 100, 0)
+			SCALE(0.7, 0.7, 0.5)
 			TRANSLATE(0, 0.5, 0)
 			CUBE
 		POP
 	}
+
+	float vspd = 0;
+	float hspd = 0;
+	float gravity = 0.01;
 };
