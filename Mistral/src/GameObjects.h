@@ -282,17 +282,9 @@ public:
 
 	void Update();
 
-	/* void DrawSelf() {
-		PUSH
-			COLOR3(200, 100, 0)
-			SCALE(0.7, 0.7, 0.5)
-			TRANSLATE(0, 0.5, 0)
-			CUBE
-		POP */
-
-//////////// BIG BEE 
 	void DrawSelf() { 
-	// BEE BODY
+	// BEES 
+/* // BEE BODY
 	PUSH
 		COLOR3(255, 238, 0);
 		TRANSLATE(0, 1.6, 0);
@@ -442,7 +434,209 @@ public:
 		SCALE(0.1, 0.25, 0.05);
 		CUBE
 	POP
-	}
+	*/
+	// MUSHROOMS 	
+/* // NUMBER 1, LEG
+	PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(0, 0.4, 0);
+		SCALE(0.2, 0.6, 0.08);
+		CUBE
+	POP
+	/// HAT
+	PUSH
+		COLOR3(88, 54, 34);
+		TRANSLATE(0, 0.8, 0);
+		SCALE(0.5, 0.25, 0.2);
+		CUBE
+	POP
+	PUSH
+		COLOR3(88, 54, 34);
+		TRANSLATE(0, 0.95, 0);
+		SCALE(0.3, 0.2, 0.1);
+		CUBE
+	POP */
+	// NUMBER 2
+/* //LEG
+	PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(0, 0.5, 0);
+		SCALE(0.35, 0.7, 0.08);
+		CUBE
+	POP
+	/// HAT
+	PUSH
+		COLOR3(255, 10, 10);
+		TRANSLATE(0, 1.07, 0);
+		SCALE(1.2, 0.3, 0.2);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 10, 10);
+		TRANSLATE(0, 1.22, 0);
+		SCALE(0.9, 0.35, 0.1);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 10, 10);
+		TRANSLATE(0, 1.37, 0);
+		SCALE(0.6, 0.4, 0.1);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(0, 1, 0);
+		SCALE(0.6, 0.4, 0.1);
+		CUBE
+	POP
+	// DOTS
+	PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(0.06, 1.37, 0);
+		SCALE(0.1, 0.1, 0.12);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(-0.3, 1.27, 0);
+		SCALE(0.14, 0.12, 0.12);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(0.15, 1.1, 0);
+		SCALE(0.18, 0.1, 0.22);
+		CUBE
+	POP */
+	// SNAIL 
+ /*
+	PUSH
+		COLOR3(222, 27, 58);
+		TRANSLATE(-0.05, 0.5, 0);
+		SCALE(0.8, 0.8, 0.1);
+		CUBE
+	POP 
+	PUSH
+		COLOR3(153, 0, 51);
+		TRANSLATE(-0.05, 0.5, 0);
+		SCALE(0.5, 0.5, 0.2);
+		CUBE
+	POP
+	PUSH
+		COLOR3(222, 27, 58);
+		TRANSLATE(-0.05, 0.5, 0);
+		SCALE(0.2, 0.2, 0.3);
+		CUBE
+	POP
+	PUSH
+		COLOR3(230, 153, 76);
+		TRANSLATE(-0.6, 0.25, 0);
+		SCALE(0.3, 0.3, 0.1);
+		CUBE
+	POP
+	PUSH
+		COLOR3(230, 153, 76);
+		TRANSLATE(-0.8, 0.45, 0);
+		SCALE(0.3, 0.7, 0.1);
+		CUBE
+	POP
+	PUSH
+		COLOR3(230, 153, 76);
+		TRANSLATE(-0.8, 0.9, -0.02);
+		SCALE(0.08, 0.2, 0.01);
+		CUBE
+	POP
+	PUSH
+		COLOR3(230, 153, 76);
+		TRANSLATE(-0.8, 0.85, 0.02);
+		SCALE(0.08, 0.15, 0.01);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(-0.8, 1, -0.02);
+		SCALE(0.08, 0.15, 0.01);
+		CUBE
+	POP
+		PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(-0.8, 1, 0.02);
+		SCALE(0.08, 0.15, 0.01);
+		CUBE
+	POP */
+	// BOSS (?)
+/* // EGG 
+	PUSH
+		COLOR3(255, 250, 250);
+		TRANSLATE(0, 0.25, 0);
+		SCALE(1.2, 0.4, 0.3);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 250, 250);
+		TRANSLATE(0, 0.6, 0);
+		SCALE(1.6, 0.4, 0.3);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 250, 250);
+		TRANSLATE(-0.8, 0.9, 0);
+		SCALE(0.4, 0.3, 0.3);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 250, 250);
+		TRANSLATE(0.7, 0.8, 0);
+		SCALE(0.3, 0.3, 0.3);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 250, 250);
+		TRANSLATE(0, 0.9, 0);
+		SCALE(0.2, 0.2, 0.3);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 250, 250);
+		TRANSLATE(0.7, 0.15, 0.2);
+		SCALE(0.3, 0.2, 0.2);
+		CUBE
+	POP
+// CHICKEN 
+	PUSH
+		COLOR3(255, 180, 0);
+		TRANSLATE(0, 1, 0);
+		SCALE(1.2, 0.8, 0.2);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 180, 0);
+		TRANSLATE(0, 1.5, 0);
+		SCALE(0.9, 0.9, 0.2);
+		CUBE
+	POP
+// MOUTH
+	PUSH
+		COLOR3(255, 80, 0);
+		TRANSLATE(-0.14, 2, 0);
+		SCALE(0.15, 0.3, 0.1);
+		CUBE
+	POP
+	PUSH
+		COLOR3(255, 80, 0);
+		TRANSLATE(0.15, 2, 0);
+		SCALE(0.15, 0.3, 0.1);
+		CUBE
+	POP
+//  EYES
+	PUSH
+		COLOR3(255, 255, 255);
+		TRANSLATE(-0.21, 1.8, 0);
+		SCALE(0.1, 0.15, 0.22);
+		CUBE
+	POP
+*/
+	} 
 
 	float vspd = 0;
 	float hspd = 0;
