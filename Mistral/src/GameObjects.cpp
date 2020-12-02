@@ -387,11 +387,18 @@ void Enemy1::Create() {
 }
 
 void Enemy1::Update() {
-	if (!CheckCollision(colliders, position.x, position.y - gravity)) {
-		vspd -= gravity;
-	} else {
-		vspd = 0;
+	if (position.y >= 8)
+		vspd = -0.03;
+	else if (position.y <= 0 || CheckCollision(colliders, position.x, position.y - 1))
+		vspd = 0.03;
+	
+	if (position.x <= -10) {
+		hspd = 0.03;
+		rotation.y -= 180;
 	}
-
+	else if (position.x >= 25 || hspd == 0) {
+		hspd = -0.03;
+		rotation.y -= 180;
+	}
 	position += glm::vec3(hspd, vspd, 0);
 }
