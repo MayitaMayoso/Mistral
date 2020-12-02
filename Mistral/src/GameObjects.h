@@ -284,79 +284,79 @@ public:
 
 	void DrawSelf() { 
 	// BEES 
-/* // BEE BODY
+ // BEE BODY
 	PUSH
 		COLOR3(255, 238, 0);
-		TRANSLATE(0, 1.6, 0);
-		SCALE(0.8, 0.6, 0.2);
+		TRANSLATE(0, 1.8, 0);
+		SCALE(0.8*0.8, 0.6*0.8, 0.2*0.8);
 		CUBE
 	POP
 	// BEE HEAD
 	PUSH
 		COLOR3(35, 26, 21);
-		TRANSLATE(-0.5, 1.6, 0);
-		SCALE(0.2, 0.5, 0.2);
+		TRANSLATE(-0.4, 1.8, 0);
+		SCALE(0.2, 0.5 * 0.8, 0.2 * 0.8);
 		CUBE
 	POP
 	// WING EYE
 	PUSH
 		COLOR3(255, 255, 255);
-		TRANSLATE(-0.5, 1.58, 0.09);
-		SCALE(0.1, 0.15, 0.03);
+		TRANSLATE(-0.4, 1.8, 0);
+		SCALE(0.1 * 0.8, 0.15 * 0.8, 0.21 * 0.8);
 		CUBE
 	POP
 	// BEE LINE
 	PUSH
 		COLOR3(45, 36, 31);
-		TRANSLATE(0, 1.6, 0);
-		SCALE(0.3, 0.7, 0.21);
+		TRANSLATE(0, 1.8, 0);
+		SCALE(0.3, 0.7 * 0.8, 0.21 * 0.8);
 		CUBE
 	POP
 	// BEE B
 	PUSH
 		COLOR3(45, 36, 31);
-		TRANSLATE(0.45, 1.6, 0);
-		SCALE(0.12, 0.4, 0.15);
+		TRANSLATE(0.36, 1.8, 0);
+		SCALE(0.12, 0.4, 0.15 * 0.8);
 		CUBE
 	POP
 	PUSH
 		COLOR3(45, 36, 31);
-		TRANSLATE(0.5, 1.6, 0);
-		SCALE(0.2, 0.1, 0.03);
+		TRANSLATE(0.42, 1.8, 0);
+		SCALE(0.2 , 0.1 * 0.8, 0.03 * 0.8);
 		CUBE
 	POP
 	PUSH
 		COLOR3(255, 140, 26);
-		TRANSLATE(0.63, 1.6, 0);
-		SCALE(0.1, 0.1, 0.03);
+		TRANSLATE(0.58, 1.8, 0);
+		SCALE(0.08, 0.1 * 0.8 , 0.03 * 0.8);
 		CUBE
 	POP
 
 	// PAWS
 	PUSH
 		COLOR3(45, 36, 31);
-		TRANSLATE(-0.3, 1.25, -0.06);
-		SCALE(0.1, 0.25, 0.04);
+		TRANSLATE(-0.25, 1.5, -0.06);
+		SCALE(0.1 * 0.8, 0.25 * 0.8, 0.04 * 0.8);
 		CUBE
 	POP
 	PUSH
 		COLOR3(35, 26, 21);
-		TRANSLATE(-0.25, 1.25, 0.06);
-		SCALE(0.1, 0.25, 0.04);
+		TRANSLATE(-0.2, 1.5, 0.06);
+		SCALE(0.1 * 0.8, 0.25 * 0.8, 0.04 * 0.8);
 		CUBE
 	POP
 	// WING LEFT
 	PUSH
 		COLOR3(128, 255, 255); // BLUE
-		TRANSLATE(-0.15, 2, 0.03);
-		SCALE(0.2, 0.5, 0.12);
+		TRANSLATE(-0.1, 2.1, 0.03);
+		SCALE(0.2 * 0.8, 0.5 * 0.8, 0.12 * 0.8);
 		CUBE
 	POP
 	// WING RIGHT
 	PUSH
 		COLOR3(128, 255, 255);
-		TRANSLATE(0.13, 1.9, -0.03);
-		SCALE(0.2, 0.5, 0.12);
+		TRANSLATE(0.08, 2., -0.03);
+		SCALE(0.2 * 0.8, 0.5 * 0.8, 0.12 * 0.8);
 		CUBE
 	POP		
 ////////////// SMALL BEE 
@@ -374,11 +374,11 @@ public:
 		SCALE(0.1, 0.25, 0.1);
 		CUBE
 	POP
-	// WING EYE
+	// EYE
 	PUSH
 		COLOR3(255, 255, 255);
-		TRANSLATE(1.745, 0.654, 0.045);
-		SCALE(0.05, 0.075, 0.015);
+		TRANSLATE(1.745, 0.654, 0);
+		SCALE(0.05, 0.075, 0.11);
 		CUBE
 	POP
 	// BEE LINE
@@ -434,7 +434,7 @@ public:
 		SCALE(0.1, 0.25, 0.05);
 		CUBE
 	POP
-	*/
+	
 	// MUSHROOMS 	
 /* // NUMBER 1, LEG
 	PUSH
@@ -636,8 +636,8 @@ public:
 		CUBE
 	POP
 */
-	// ARM 1
-/* PUSH
+/*	// ARM 1
+ PUSH
 		COLOR3(197, 153, 109);
 		TRANSLATE(0, 7.5, 0);
 		SCALE(1.6, 4, 0.3);
@@ -795,8 +795,20 @@ public:
 		TRANSLATE(-0.85, 2.35, -0.36);
 		SCALE(0.05, 0.35, 0.1);
 		CUBE
-	POP
-	*/
+	POP*/
+/* PUSH
+	COLOR3(197, 153, 109);
+	TRANSLATE(0, 7.5, 0);
+	SCALE(1.6, 4, 0.3);
+	CUBE
+POP
+PUSH
+	COLOR3(197, 153, 109);
+	TRANSLATE(0, 5.3, 0);
+	SCALE(2.1, 0.5, 0.3);
+	CUBE
+POP
+*/
 	} 
 
 	float vspd = 0;
