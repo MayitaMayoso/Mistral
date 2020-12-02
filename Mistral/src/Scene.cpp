@@ -4,46 +4,106 @@ Scene::Scene(Mistral* g) {
 	game = g;
 }
 
-void Scene::Instantiate(string data[5]) {
-	if (data[0] == "CHARACTER") {
+void Scene::Instantiate(string data[5], float z) {
+	if (data[0] == "Character") {
 		Entity* e = new Character(game);
-		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
-		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
 	}
 
-	if (data[0] == "ENEMY_1") {
-		Entity* e = new Enemy1(game);
-		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
-		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
-	}
-
-	if (data[0] == "GROUND") {
+	if (data[0] == "Ground") {
 		Entity* e = new Ground(game);
-		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
-		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
 	}
 
-	if (data[0] == "GRASS") {
+	if (data[0] == "Grass") {
 		Entity* e = new Grass(game);
-		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
-		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
 	}
 
-	if (data[0] == "GROUND_CORNER") {
-		Entity* e = new GroundCorner(game);
-		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
-		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+	if (data[0] == "GroundCornerRight") {
+		Entity* e = new GroundCornerRight(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
 	}
 
-	if (data[0] == "GRASS_CORNER") {
-		Entity* e = new GrassCorner(game);
-		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), 0);
-		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);
+	if (data[0] == "GroundCornerLeft") {
+		Entity* e = new GroundCornerLeft(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "GrassCornerRight") {
+		Entity* e = new GrassCornerRight(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "GrassCornerLeft") {
+		Entity* e = new GrassCornerLeft(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "BigBee") {
+		Entity* e = new BigBee(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "SmallBee") {
+		Entity* e = new SmallBee(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "Snail") {
+		Entity* e = new Snail(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "BrownMushroom") {
+		Entity* e = new BrownMushroom(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "RedMushroom") {
+		Entity* e = new RedMushroom(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "Hand") {
+		Entity* e = new Hand(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "Trunk") {
+		Entity* e = new Trunk(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "Branch") {
+		Entity* e = new Branch(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
+	}
+
+	if (data[0] == "Leaves") {
+		Entity* e = new Leaves(game);
+		e->position = glm::vec3(std::stof(data[1]), std::stof(data[2]), z);
+		e->scale = glm::vec3(std::stof(data[3]), std::stof(data[4]), 1);		
 	}
 }
 
 
-void Scene::Load(std::string name) {
+void Scene::Load(std::string name, float z) {
 
 	string line;
 	ifstream file;
@@ -70,6 +130,6 @@ void Scene::Load(std::string name) {
 		}
 		data[4] = item;
 
-		Instantiate(data);
+		Instantiate(data, z);
 	}
 }

@@ -55,20 +55,17 @@
 	// Drawing of every entity
 	for (var i = 0; i < ds_list_size(level); ++i) {
 		var e = level[|i];
-	    Sprite(e.type, 0, e.x, e.y, e.xscale, e.yscale, 1);
+	    Sprite(e.type, 0, e.xdraw(), e.ydraw(), e.xscale, e.yscale, 1);
 	}
 	
-	if (copyId!=-1) {
-		draw_set_alpha(0.5);
-		Rectangle(copyId.x, copyId.y, copyId.x+PPU*copyId.xscale, copyId.y+PPU*copyId.yscale, c_black, false);
-		draw_set_alpha(1);
-		
+	if (copyId!=-1) {		
 		Rectangle(copyId.x, copyId.y, copyId.x+PPU*copyId.xscale, copyId.y+PPU*copyId.yscale, c_blue, 1);
 	}
 
 	// Drawing of the entity you are about to place
 	if ( alt ) {
-		Sprite(entities[|entityId], 0, smx, smy, (copyId!=-1)?copyId.xscale:1, (copyId!=-1)?copyId.yscale:1, 0.7);
+		var spr = entities[|entityId];
+		Sprite(spr, 0, smx + sprite_get_xoffset(spr), smy + sprite_get_yoffset(spr), (copyId!=-1)?copyId.xscale:1, (copyId!=-1)?copyId.yscale:1, 0.7);
 	}
 
 	// Drawing of the selected rectangle

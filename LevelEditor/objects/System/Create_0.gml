@@ -25,14 +25,15 @@
 	var ent = tag_get_assets("Entities");
 	for (var i = 0; i < array_length(ent); ++i)
 		ds_list_add(entities, asset_get_index(ent[i]));
-	ds_list_sort(entities, true);
 
 	function Entity(x, y, type) constructor {
-		self.x = x;
+		self.type = type;
+		self.x =  x;
 		self.y = y;
+		static xdraw = function() { return self.x + sprite_get_xoffset(type); };
+		static ydraw = function() { return self.y + sprite_get_yoffset(type); };
 		self.xscale = 1;
 		self.yscale = 1;
-		self.type = type;
 		self.bpick = false;
 		self.tpick = false;
 		self.lpick = false;
@@ -90,8 +91,9 @@
 			for (var i = 0; i < ds_list_size(System.entities); i++) {
 				var xx = (i % itemsPerRow) * unit;
 				var yy = (i div itemsPerRow) * unit;
+				var spr = System.entities[|i];
 				if ( i==System.entityId && System.copyId==-1) Rectangle(xx, yy, xx+unit, yy+unit, col.shade, false);
-				Sprite(System.entities[|i], 0, xx, yy, scale, scale, 1);
+				Sprite(spr, 0, xx + sprite_get_xoffset(spr) * scale, yy + sprite_get_yoffset(spr) * scale, scale, scale, 1);
 				if ( i==System.entityId && System.copyId==-1) Rectangle(xx, yy, xx+unit, yy+unit, col.accent, 1);
 			}
 			
@@ -167,7 +169,7 @@
 		var file = file_text_open_write(filename);
 		for (var i = 0; i < ds_list_size(level); ++i) {
 			var e = level[|i];
-			file_text_write_string(file, sprite_get_name(e.type) + "," + string(e.x/PPU) + "," + string(-e.y/PPU) + "," + string(e.xscale) + "," + string(e.yscale) + "\n");
+			file_text_write_string(file, sprite_get_name(e.type) + "," + string(e.xdraw()/PPU) + "," + string(-e.ydraw()/PPU) + "," + string(e.xscale) + "," + string(e.yscale) + "\n");
 		}
 		var splits = Split(filename, ["/", "\\"]);
 		path = filename;
@@ -201,6 +203,8 @@
 			var e = new Entity(real(arr[1])*PPU, -real(arr[2])*PPU, asset_get_index(arr[0]));
 			e.xscale = real(arr[3]);
 			e.yscale = real(arr[4]);
+			e.x -= sprite_get_xoffset(e.type);
+			e.y -= sprite_get_yoffset(e.type);
 		}
 		file_text_close(file);
 	

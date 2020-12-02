@@ -153,7 +153,8 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 	winId = glutCreateWindow("Mistral");
 	init();
 
-	scene->Load("world1.mistral");
+	scene->Load("world1.mistral", 0);
+	scene->Load("world2.mistral", -5);
 
 	glutDisplayFunc(DrawCallback);
 	glutTimerFunc(int(1000 / fps), UpdateCallback, 0);

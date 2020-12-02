@@ -61,35 +61,42 @@ bool IsBetween(float val, float min, float max) {
 }
 
 bool Entity::CheckCollision(std::string object, float x, float y) {
-	bool isColliding = false;
 	BoundingBox bbox;
 
-	bbox.right	= x + margin[0];
-	bbox.up		= y + margin[1];
-	bbox.left	= x - margin[2];
-	bbox.down	= y - margin[3];
+	for (glm::vec4 mar : margin) {
+		bbox.right = x + mar[0];
+		bbox.up = y + mar[1];
+		bbox.left = x - mar[2];
+		bbox.down = y - mar[3];
 
-	BoundingBox bboxOther;
-	for (Entity* e : game->EntitiesList) {
-		if (e->GetName() == object && e->id != id) {
-			bboxOther.right = e->position.x + e->margin[0];
-			bboxOther.up	= e->position.y + e->margin[1];
-			bboxOther.left	= e->position.x - e->margin[2];
-			bboxOther.down	= e->position.y - e->margin[3];
+		BoundingBox bboxOther;
+		for (Entity* e : game->EntitiesList) {
+			if (e->position.z == position.z && e->GetName() == object && e->id != id && (abs(position.x - e->position.x) < 10.0f)) {
+				for (glm::vec4 mar2 : e->margin) {
+					bboxOther.right = e->position.x + mar2[0];
+					bboxOther.up = e->position.y + mar2[1];
+					bboxOther.left = e->position.x - mar2[2];
+					bboxOther.down = e->position.y - mar2[3];
 
-			bool xColl = IsBetween(bbox.right, bboxOther.left, bboxOther.right)
-				|| IsBetween(bbox.left, bboxOther.left, bboxOther.right);
-			bool yColl = IsBetween(bbox.up, bboxOther.down, bboxOther.up) ||
-				IsBetween(bbox.down, bboxOther.down, bboxOther.up);
+					bool xColl = IsBetween(bbox.right, bboxOther.left, bboxOther.right)
+						|| IsBetween(bbox.left, bboxOther.left, bboxOther.right);
+					bool yColl = IsBetween(bbox.up, bboxOther.down, bboxOther.up) ||
+						IsBetween(bbox.down, bboxOther.down, bboxOther.up);
 
-			if (xColl && yColl) {
-				isColliding = true;
-				break;
+					bool xColl2 = IsBetween(bboxOther.right, bbox.left, bbox.right)
+						|| IsBetween(bboxOther.left, bbox.left, bbox.right);
+					bool yColl2 = IsBetween(bboxOther.up, bbox.down, bbox.up) ||
+						IsBetween(bboxOther.down, bbox.down, bbox.up);
+
+					if (xColl && yColl || xColl2 && yColl2) {
+						return true;
+					}
+				}
 			}
 		}
 	}
 
-	return isColliding;
+	return false;
 }
 
 bool Entity::CheckCollision(std::string object, glm::vec3 pos) {
@@ -97,35 +104,42 @@ bool Entity::CheckCollision(std::string object, glm::vec3 pos) {
 }
 
 bool Entity::CheckCollision(std::list<std::string> objects, float x, float y) {
-	bool isColliding = false;
 	BoundingBox bbox;
 
-	bbox.right = x + margin[0];
-	bbox.up = y + margin[1];
-	bbox.left = x - margin[2];
-	bbox.down = y - margin[3];
+	for (glm::vec4 mar : margin) {
+		bbox.right = x + mar[0];
+		bbox.up = y + mar[1];
+		bbox.left = x - mar[2];
+		bbox.down = y - mar[3];
 
-	BoundingBox bboxOther;
-	for (Entity* e : game->EntitiesList) {
-		if (IsIn(e->GetName(), objects) && e->id != id) {
-			bboxOther.right = e->position.x + e->margin[0];
-			bboxOther.up = e->position.y + e->margin[1];
-			bboxOther.left = e->position.x - e->margin[2];
-			bboxOther.down = e->position.y - e->margin[3];
+		BoundingBox bboxOther;
+		for (Entity* e : game->EntitiesList) {
+			if (e->position.z == position.z && IsIn(e->GetName(), objects) && e->id != id && (abs(position.x - e->position.x) < 10.0f)) {
+				for (glm::vec4 mar2 : e->margin) {
+					bboxOther.right = e->position.x + mar2[0];
+					bboxOther.up = e->position.y + mar2[1];
+					bboxOther.left = e->position.x - mar2[2];
+					bboxOther.down = e->position.y - mar2[3];
 
-			bool xColl = IsBetween(bbox.right, bboxOther.left, bboxOther.right)
-				|| IsBetween(bbox.left, bboxOther.left, bboxOther.right);
-			bool yColl = IsBetween(bbox.up, bboxOther.down, bboxOther.up) ||
-				IsBetween(bbox.down, bboxOther.down, bboxOther.up);
+					bool xColl = IsBetween(bbox.right, bboxOther.left, bboxOther.right)
+						|| IsBetween(bbox.left, bboxOther.left, bboxOther.right);
+					bool yColl = IsBetween(bbox.up, bboxOther.down, bboxOther.up) ||
+						IsBetween(bbox.down, bboxOther.down, bboxOther.up);
 
-			if (xColl && yColl) {
-				isColliding = true;
-				break;
+					bool xColl2 = IsBetween(bboxOther.right, bbox.left, bbox.right)
+						|| IsBetween(bboxOther.left, bbox.left, bbox.right);
+					bool yColl2 = IsBetween(bboxOther.up, bbox.down, bbox.up) ||
+						IsBetween(bboxOther.down, bbox.down, bbox.up);
+
+					if (xColl && yColl || xColl2 && yColl2) {
+						return true;
+					}
+				}
 			}
 		}
 	}
 
-	return isColliding;
+	return false;
 }
 
 bool Entity::CheckCollision(std::list<std::string> objects, glm::vec3 pos) {
