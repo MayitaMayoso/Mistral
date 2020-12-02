@@ -285,7 +285,7 @@ public:
 	void DrawSelf() { 
 	// BEES 
  // BEE BODY
-	PUSH
+/*	PUSH
 		COLOR3(255, 238, 0);
 		TRANSLATE(0, 1.8, 0);
 		SCALE(0.8*0.8, 0.6*0.8, 0.2*0.8);
@@ -433,7 +433,7 @@ public:
 		TRANSLATE(2.05, 0.88, 0.02);
 		SCALE(0.1, 0.25, 0.05);
 		CUBE
-	POP
+	POP*/
 	
 	// MUSHROOMS 	
 /* // NUMBER 1, LEG
@@ -635,8 +635,9 @@ public:
 		SCALE(0.1, 0.15, 0.22);
 		CUBE
 	POP
-*/
-/*	// ARM 1
+*/// ARM 1
+// ARM 1
+/*	
  PUSH
 		COLOR3(197, 153, 109);
 		TRANSLATE(0, 7.5, 0);
@@ -796,19 +797,90 @@ public:
 		SCALE(0.05, 0.35, 0.1);
 		CUBE
 	POP*/
-/* PUSH
+// ARM 2
+/*
+PUSH
 	COLOR3(197, 153, 109);
-	TRANSLATE(0, 7.5, 0);
+	TRANSLATE(0, 5, -0.15);
 	SCALE(1.6, 4, 0.3);
+	CUBE
+POP
+	PUSH
+		COLOR3(197, 153, 109);
+		TRANSLATE(0, 3.6, -0.15);
+		SCALE(3, 0.6, 0.4);
+		CUBE
+	POP
+PUSH
+	COLOR3(197, 153, 109);
+	TRANSLATE(0, 3, -0.15);
+	SCALE(4, 1, 0.6);
 	CUBE
 POP
 PUSH
 	COLOR3(197, 153, 109);
-	TRANSLATE(0, 5.3, 0);
-	SCALE(2.1, 0.5, 0.3);
+	TRANSLATE(-1.5, 1.7, 0.1);
+	SCALE(1, 1.7, 0.1);
 	CUBE
 POP
-*/
+PUSH
+	COLOR3(197, 153, 109);
+	TRANSLATE(-1.6, 1.5, -0.4);
+	SCALE(0.8, 2.5, 0.1);
+	CUBE
+POP
+PUSH
+	COLOR3(197, 153, 109);
+	TRANSLATE(-0.5, 1.5, -0.4);
+	SCALE(0.8, 3, 0.1);
+	CUBE
+POP
+PUSH
+	COLOR3(197, 153, 109);
+	TRANSLATE(.6, 1.5, -0.4);
+	SCALE(0.8, 2.7, 0.1);
+	CUBE
+POP
+PUSH
+	COLOR3(197, 153, 109);
+	TRANSLATE(1.7, 1.5, -0.4);
+	SCALE(0.6, 2, 0.1);
+	CUBE
+POP
+
+// NAILS 
+PUSH
+	COLOR3(255, 217, 179);
+	TRANSLATE(-1.6, 0.5, -0.45);
+	SCALE(0.45, 0.5, 0.02);
+	CUBE
+		POP
+
+PUSH
+	COLOR3(255, 217, 179);
+	TRANSLATE(-0.5, 0.25, -0.45);
+	SCALE(0.45, 0.5, 0.02);
+	CUBE
+POP
+
+PUSH
+	COLOR3(255, 217, 179);
+	TRANSLATE(.6, 0.4, -0.45);
+	SCALE(0.45, 0.5, 0.02);
+	CUBE
+POP
+PUSH
+	COLOR3(255, 217, 179);
+	TRANSLATE(1.7, 0.7, -0.45);
+	SCALE(0.4, 0.4, 0.02);
+	CUBE
+POP
+PUSH
+	COLOR3(255, 217, 179);
+	TRANSLATE(-1.5, 1.15, 0.15);
+	SCALE(0.65, 0.55, 0.02);
+	CUBE
+POP */
 	} 
 
 	float vspd = 0;
