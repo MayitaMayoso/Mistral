@@ -82,6 +82,16 @@ public:
 				VERTEX(1, -1, .5)
 				VERTEX(1, -1, -.5)
 				VERTEX(0, -1, -.5)
+
+				VERTEX(0, 0, .5)
+				VERTEX(0, -1, .5)
+				VERTEX(0, -1, -.5)
+				VERTEX(0, 0, -.5)
+
+				VERTEX(1, 0, .5)
+				VERTEX(1, -1, .5)
+				VERTEX(1, -1, -.5)
+				VERTEX(1, 0, -.5)
 				END
 				POP
 		};
@@ -106,6 +116,16 @@ public:
 				VERTEX(1, -.4, .5)
 				VERTEX(0, -.4, .5)
 
+				VERTEX(0, 0, .5)
+				VERTEX(0, -.4, .5)
+				VERTEX(0, -.4, -.5)
+				VERTEX(0, 0, -.5)
+
+				VERTEX(1, 0, .5)
+				VERTEX(1, -.4, .5)
+				VERTEX(1, -.4, -.5)
+				VERTEX(1, 0, -.5)
+
 				COLOR3(102, 50, 0)
 
 				VERTEX(0, -.4, .5)
@@ -117,6 +137,26 @@ public:
 				VERTEX(1, -1, .5)
 				VERTEX(1, -1, -.5)
 				VERTEX(0, -1, -.5)
+
+				VERTEX(0, 0, .5)
+				VERTEX(0, -1, .5)
+				VERTEX(0, -1, -.5)
+				VERTEX(0, 0, -.5)
+
+				VERTEX(1, 0, .5)
+				VERTEX(1, -1, .5)
+				VERTEX(1, -1, -.5)
+				VERTEX(1, 0, -.5)
+
+				VERTEX(0, -.4, .5)
+				VERTEX(0, -1, .5)
+				VERTEX(0, -1, -.5)
+				VERTEX(0, -.4, -.5)
+
+				VERTEX(1, -.4, .5)
+				VERTEX(1, -1, .5)
+				VERTEX(1, -1, -.5)
+				VERTEX(1, -.4, -.5)
 				END
 				POP
 		};
@@ -827,6 +867,7 @@ public:
 		void Update();
 
 		void DrawSelf() {
+			TRANSLATE(0, -.1, 0)
 			// SNAIL
 			SCALE(-1, 1, 1);
 			PUSH
@@ -976,7 +1017,11 @@ public:
 	public:
 		Hand(Mistral* g) : Entity(g) { Create(); };
 
+		void Create();
+
 		void DrawSelf() {
+			TRANSLATE(0, -2.5, .5)
+			SCALE(.7, .7, .7)
 			/// ARM 1
 			// ARM 1
 			PUSH

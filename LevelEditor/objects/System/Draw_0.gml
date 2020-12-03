@@ -64,7 +64,7 @@
 				if ( e.z == zz )
 					Sprite(e.type, 0, e.xdraw(), e.ydraw(), e.xscale, e.yscale, col, 1);
 			}
-			if (copyId!=-1 && copyId.z >= zz) {		
+			if (copyId!=-1 && copyId.z == zz) {		
 				Rectangle(copyId.x, copyId.y, copyId.x+PPU*copyId.xscale, copyId.y+PPU*copyId.yscale, c_blue, 1);
 			}
 		}

@@ -114,20 +114,18 @@ void Scene::Instantiate(string data[5]) {
 	}
 }
 
-
 void Scene::Load(std::string name) {
-
 	string line;
 	ifstream file;
 	list<string> level;
-	std::string path = std::filesystem::current_path().string() + "/resources/" + name;
+	std::string path = std::filesystem::current_path().string() + "/resources/" + name + ".mistral";
 	std::cout << path;
 	file.open(path);
 	if (file.is_open())	{
 		while (getline(file, line))	level.push_front(line);
 		file.close();
 	}
-
+	new Clouds(game);
 	for( string line : level ) {
 		string item = "";
 		string data[6];
@@ -144,5 +142,58 @@ void Scene::Load(std::string name) {
 		data[5] = item;
 
 		Instantiate(data);
+	}
+}
+
+void Scene::SetLevels(std::list<std::string> levels) {
+	levelsList = levels;
+	Load(levelsList.front());
+}
+
+void Scene::NextLevel() {
+	changeLevel = true;
+}
+
+void Scene::NextLevelCallback() {
+	if (changeLevel) {
+		for (Entity* e : game->EntitiesList) {
+			delete e;
+		}
+		game->EntitiesList.clear();
+		changeLevel = false;
+		current++;
+		int i = 0;
+		bool endGame = true;
+		for (std::string l : levelsList) {
+			if (i == current) {
+				endGame = false;
+				Load(l);
+			}
+			i++;
+		}
+		if (endGame) {
+			game->End();
+		}
+	}
+}
+
+void Scene::RestartLevel() {
+	restartLevel = true;
+}
+
+void Scene::RestartLevelCallback() {
+	if (restartLevel) {
+		for (Entity* e : game->EntitiesList) {
+			delete e;
+		}
+		game->EntitiesList.clear();
+		restartLevel = false;
+		int i = 0;
+		for (std::string l : levelsList) {
+			if (i == current) {
+				Load(l);
+			}
+			i++;
+		}
 	}
 }

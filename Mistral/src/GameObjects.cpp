@@ -68,6 +68,8 @@ std::list<std::string> bouncyEnemies = { "Snail", "BigBee" };
 
 		int vdir = - (int)game->input->InputCheck("DOWN", InputState::HOLD);
 
+		if (CheckCollision("Hand", position.x, position.y)) game->scene->NextLevel();
+
 		// Horizontal movement
 		hspd = approach(hspd, maxspd * hdir, acceleration);
 
@@ -188,8 +190,6 @@ std::list<std::string> bouncyEnemies = { "Snail", "BigBee" };
 				}
 			}
 		}
-
-		if (game->input->InputCheck("EXIT", InputState::PRESSED)) game->End();
 
 		game->camera->position = lerp(game->camera->position, position + glm::vec3(0.0f, 1.0f, 3.0f), 0.2f);
 		game->camera->lookat = lerp(game->camera->lookat, position + glm::vec3(0.0f, 1.0f, 0.0f), 0.2f);
@@ -593,13 +593,17 @@ std::list<std::string> bouncyEnemies = { "Snail", "BigBee" };
 		}
 	}
 
+	void Hand::Create() {
+		margin.push_back(glm::vec4(.5, 2, .5, 0));
+	}
+
 #pragma endregion
 
 #pragma region Effects
 
 	void Clouds::Create() {
-		for (int i = 0; i < 100; i++) {
-			Cloud* c = new Cloud(rand() % 100 - 50, rand() % 50, -(rand() % 10) - 5.0f, 5, 2, 0.1f + 0.2f * (rand() % 100) / 100.f);
+		for (int i = 0; i < 200; i++) {
+			Cloud* c = new Cloud(rand() % 200 - 100, rand() % 200 - 100, -(rand() % 15) - 15.0f, 5, 2, 0.1f + 0.2f * (rand() % 100) / 100.f);
 			listOfClouds.push_back(c);
 		}
 	}
@@ -612,8 +616,8 @@ std::list<std::string> bouncyEnemies = { "Snail", "BigBee" };
 			glScalef(c->xscale, c->yscale, .01f);
 			glutSolidCube(1);
 			glPopMatrix();
-			c->x += c->speed;
-			if (c->x > 60.0f) c->x = -60.0f;
+			c->x += c->speed*.1;
+			if (c->x > 300.0f) c->x = -60.0f;
 		};
 	}
 

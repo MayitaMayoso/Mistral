@@ -17,9 +17,18 @@ class Scene {
 public:
 	Scene(Mistral* g);
 
+	void SetLevels(std::list<std::string> levels);
 	void Load(std::string name);
 	void Instantiate(std::string data[5]);
+	void NextLevel();
+	void NextLevelCallback();
+	void RestartLevel();
+	void RestartLevelCallback();
 
+	std::list<std::string> levelsList;
+	int current = 0;
+	bool changeLevel = false;
+	bool restartLevel = false;
 	Mistral* game;
 };
 

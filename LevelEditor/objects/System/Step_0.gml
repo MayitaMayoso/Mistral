@@ -3,8 +3,8 @@
 
 	var zspd = 0.3;
 	var alt = keyboard_check(vk_alt);
-	if(mouse_wheel_down() && alt) uc_set_view_scale(Camera.view_scale * (1+zspd));
-	if(mouse_wheel_up() && alt) uc_set_view_scale(Camera.view_scale * (1-zspd));
+	if(mouse_wheel_down() && !alt) uc_set_view_scale(Camera.view_scale * (1+zspd));
+	if(mouse_wheel_up() && !alt) uc_set_view_scale(Camera.view_scale * (1-zspd));
 	
 	var vx = Camera.view_x - 1;
 	var vy = Camera.view_y - 1;
@@ -34,7 +34,7 @@
 	var mrelease = mouse_check_button_released(mb_middle);
 	var control = keyboard_check(vk_control);
 	var shift = keyboard_check(vk_shift);
-	z += ( mouse_wheel_up() - mouse_wheel_down() ) * !alt;
+	z += ( mouse_wheel_up() - mouse_wheel_down() ) * alt;
 	ds_list_sort(numOfLayers, false);
 
 #endregion
@@ -180,7 +180,7 @@
 			selected = -1;
 			for (var i = 0; i < ds_list_size(level); ++i) {
 				var e = level[|i];
-				if ( Within(mx, e.x, e.x+PPU*e.xscale) && Within(my, e.y, e.y+PPU*e.yscale) ) {
+				if ( Within(mx, e.x, e.x+PPU*e.xscale) && Within(my, e.y, e.y+PPU*e.yscale) && e.z == z ) {
 					entityId = ds_list_find_index(entities, e.type);
 					copyId = e;
 				}

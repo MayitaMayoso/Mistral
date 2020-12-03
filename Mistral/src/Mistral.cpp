@@ -115,9 +115,15 @@ void Mistral::GeneralUpdate(int value) {
 	}
 	EntitiesToDestroy.clear();
 
+	scene->NextLevelCallback();
+	scene->RestartLevelCallback();
+
 	for (Entity* e : EntitiesList) {
 		e->Update();
 	}
+
+	if (input->InputCheck("EXIT", InputState::PRESSED)) End();
+	if (input->InputCheck("RESTART", InputState::PRESSED)) scene->RestartLevel();
 
 	glutTimerFunc(1000 / fps, UpdateCallback, 0);
 	glutPostRedisplay();
@@ -153,7 +159,7 @@ int Mistral::Run(int argc, char* args[], Mistral* s) {
 	winId = glutCreateWindow("Mistral");
 	init();
 
-	scene->Load("world1.mistral");
+	scene->SetLevels({ "world1", "world2", "world3", "world4", "world5" });
 
 	glutDisplayFunc(DrawCallback);
 	glutTimerFunc(int(1000 / fps), UpdateCallback, 0);

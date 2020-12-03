@@ -9,6 +9,7 @@ void Input::InitializeKeys() {
 	addInput("RIGHT", { InputKey::ARROWRIGHT, InputKey::D });
 	addInput("SPACE", { InputKey::SPACE });
 	addInput("EXIT", { InputKey::ESCAPE });
+	addInput("RESTART", { InputKey::R });
 }
 
 Input::Input() {
