@@ -5,7 +5,9 @@
 #include "random"
 
 #define PI 3.14159265358979323
-std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "GrassCornerLeft", "GroundCornerRight", "GrassCornerRight", "BrownMushroom", "RedMushroom" };
+std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "GrassCornerLeft", "GroundCornerRight", "GrassCornerRight", "BigRedMushroom", "SmallRedMushroom", "BigBlueMushroom", "SmallBlueMushroom" };
+
+std::list<std::string> bouncyEnemies = { "Snail", "BigBee" };
 
 #pragma region Functions
 
@@ -75,13 +77,23 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 		if (hspd == 0) animation = 0;
 		else animation -= 1 - 2 * (hspd > 0);
 		// Frontal movement
-		if (CheckCollision("RedMushroom", position.x, position.y - 0.3)) {
+		if (CheckCollision("BigRedMushroom", position.x, position.y - 0.3)) {
 			targetZ -= 5;
 			rotation.z = 360;
 			Jump();
 		}
-		if (CheckCollision("BrownMushroom", position.x, position.y - 0.3)) {
+		if (CheckCollision("BigBlueMushroom", position.x, position.y - 0.3)) {
 			targetZ += 5;
+			rotation.z = 360;
+			Jump();
+		}
+		if (CheckCollision("SmallRedMushroom", position.x, position.y - 0.3)) {
+			targetZ -= 1;
+			rotation.z = 360;
+			Jump();
+		}
+		if (CheckCollision("SmallBlueMushroom", position.x, position.y - 0.3)) {
+			targetZ += 1;
 			rotation.z = 360;
 			Jump();
 		}
@@ -110,8 +122,8 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 			EntityDestroy(id);
 		}
 
-		if (CheckCollision("Snail", position.x, position.y)) {
-			if (!CheckCollision("Snail", position.x, position.y + 0.3)) {
+		if (CheckCollision(bouncyEnemies, position.x, position.y)) {
+			if (!CheckCollision(bouncyEnemies, position.x, position.y + 0.3)) {
 				Jump();
 				rotation.z = 360;
 				REPEAT(5) {
@@ -456,7 +468,9 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 		if (hspd > 0)	rotation.y = lerp(rotation.y, -0, .1);
 		if (hspd < 0)	rotation.y = lerp(rotation.y, -180, .1);
 
-		if (!CheckCollision(colliders, position.x + 2 * dir, position.y - gravity)) {
+		if (!CheckCollision(colliders, position.x + 2 * dir, position.y - gravity)||
+			CheckCollision(colliders, position.x + 0.1 * dir, position.y) ||
+			CheckCollision(bouncyEnemies, position.x + 0.1 * dir, position.y)) {
 			dir = -dir;
 			margin.clear();
 			if (dir > 0)
@@ -521,12 +535,62 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 		}
 	}
 
-	void RedMushroom::Create() {
-		margin.push_back(glm::vec4(.5, 1.2, .5, 0));
+	void BigRedMushroom::Create() {
+		margin.push_back(glm::vec4(.5, .5, .5, 0));
 	}
 
-	void BrownMushroom::Create() {
-		margin.push_back(glm::vec4(.5, 1, .5, 0));
+	void BigRedMushroom::Update() {
+		scale = lerp(scale, glm::vec3(1, 1, 1), 0.3);
+
+		// Player interaction
+		if (CheckCollision("Character", position.x, position.y + 0.3)) {
+			scale = glm::vec3(1.6, 0.4, 1);
+		}
+	}
+
+	void BigBee::Create() {
+		margin.push_back(glm::vec4(.5, 0.9f, .5, 0.0f));
+	}
+
+	void BigBee::Update() {
+		scale = lerp(scale, glm::vec3(1, 1, 1), 0.3);
+
+		// Player interaction
+		if (CheckCollision("Character", position.x, position.y + 0.3)) {
+			scale = glm::vec3(1.6, 0.4, 1);
+		}
+
+		// Horizontal movement
+		hspd = approach(hspd, maxspd * dir, 1);
+
+		if (hspd > 0)	rotation.y = lerp(rotation.y, -0, .1);
+		if (hspd < 0)	rotation.y = lerp(rotation.y, -180, .1);
+
+		if (CheckCollision(colliders, position.x + 0.1 * dir, position.y) ||
+			CheckCollision(bouncyEnemies, position.x + 0.1 * dir, position.y)) {
+			dir = -dir;
+		}
+
+		position += glm::vec3(hspd, vspd, 0);
+
+		// Fix position
+		if (CheckCollision(colliders, position.x, position.y)) {
+			int count = 0;
+			float dist = 0.2;
+			float prec = 90;
+			float jump = 0.2;
+
+			glm::vec3 origin = position;
+			while (CheckCollision(colliders, position)) {
+				position.x = origin.x + dist * cos(radians(count * prec));
+				position.y = origin.y + dist * sin(radians(count * prec));
+				count++;
+				if (count == 4) {
+					count = 0;
+					dist += jump;
+				}
+			}
+		}
 	}
 
 #pragma endregion

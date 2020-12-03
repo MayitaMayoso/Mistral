@@ -125,8 +125,8 @@ function Rectangle(x1, y1, x2, y2, color, width) {
 	}
 }
 
-function Sprite(sprite, subimage, x, y, xscale, yscale, alpha) {
+function Sprite(sprite, subimage, x, y, xscale, yscale, color, alpha) {
 	var x1 = x+1;
 	var y1 = y+1;
-	draw_sprite_ext(sprite, subimage, x1, y1, xscale, yscale, 0, c_white, alpha);
+	draw_sprite_ext(sprite, subimage, x1, y1, xscale, yscale, 0, color, alpha);
 }

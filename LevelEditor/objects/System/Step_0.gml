@@ -2,8 +2,9 @@
 #region Camera stuff
 
 	var zspd = 0.3;
-	if(mouse_wheel_down()) uc_set_view_scale(Camera.view_scale * (1+zspd));
-	if(mouse_wheel_up()) uc_set_view_scale(Camera.view_scale * (1-zspd));
+	var alt = keyboard_check(vk_alt);
+	if(mouse_wheel_down() && alt) uc_set_view_scale(Camera.view_scale * (1+zspd));
+	if(mouse_wheel_up() && alt) uc_set_view_scale(Camera.view_scale * (1-zspd));
 	
 	var vx = Camera.view_x - 1;
 	var vy = Camera.view_y - 1;
@@ -31,9 +32,10 @@
 	var mhold = mouse_check_button(mb_middle);
 	var mpress = mouse_check_button_pressed(mb_middle);
 	var mrelease = mouse_check_button_released(mb_middle);
-	var alt = keyboard_check(vk_alt);
 	var control = keyboard_check(vk_control);
 	var shift = keyboard_check(vk_shift);
+	z += ( mouse_wheel_up() - mouse_wheel_down() ) * !alt;
+	ds_list_sort(numOfLayers, false);
 
 #endregion
 
@@ -46,20 +48,20 @@
 			selected = -1;
 			for (var i = 0; i < ds_list_size(placed); ++i) {
 				var e = placed[|i];
-				if ( e.x == Snap(mx) && e.y == Snap(my) ) {
+				if ( e.x == Snap(mx) && e.y == Snap(my) && e.z == z ) {
 					alreadyPlaced = true;
 					break;
 				}
 			}
 			for (var i = 0; i < ds_list_size(level); ++i) {
 				var e = level[|i];
-				if ( e.x == Snap(mx) && e.y == Snap(my) && e.type == entities[|entityId] ) {
+				if ( e.x == Snap(mx) && e.y == Snap(my) && e.z == z && e.type == entities[|entityId] ) {
 					alreadyPlaced = true;
 					break;
 				}
 			}
 			if(!alreadyPlaced) {
-				var e = new Entity(Snap(mx), Snap(my), entities[|entityId]);
+				var e = new Entity(Snap(mx), Snap(my), z, entities[|entityId]);
 				ds_list_add(placed, e);
 				if (copyId!=-1) {
 					e.xscale = copyId.xscale;
@@ -77,7 +79,7 @@
 			selected = -1;
 			for (var i = 0; i < ds_list_size(level); ++i) {
 				var e = level[|i];
-				if ( Within(mx, e.x, e.x+PPU*e.xscale) && Within(my, e.y, e.y+PPU*e.yscale) ) {
+				if ( Within(mx, e.x, e.x+PPU*e.xscale) && Within(my, e.y, e.y+PPU*e.yscale) && e.z == z) {
 					ds_list_delete(level, i);
 					break;
 				}
@@ -92,7 +94,7 @@
 			selected = -1;
 			for (var i = 0; i < ds_list_size(level); ++i) {
 				var e = level[|i];
-				if ( Within(mx, e.x, e.x+PPU*e.xscale) && Within(my, e.y, e.y+PPU*e.yscale) ) selected = e;
+				if ( Within(mx, e.x, e.x+PPU*e.xscale) && Within(my, e.y, e.y+PPU*e.yscale)  && e.z == z ) selected = e;
 			}	
 		}
 

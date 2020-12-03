@@ -454,10 +454,15 @@ public:
 
 	class BigBee : public Entity {
 	public:
-
 		BigBee(Mistral* g) : Entity(g) { Create(); };
 
+		void Create();
+
+		void Update();
+
 		void DrawSelf() {
+			TRANSLATE(0, -1, 0)
+			SCALE(-1, 1, 1)
 			// BIG BEE
 			PUSH
 			COLOR3(255, 238, 0);
@@ -535,6 +540,13 @@ public:
 			CUBE
 			POP
 		};
+	
+		float hspd = 0;
+		float vspd = 0;
+		float gravity = 0.01;
+		float maxspd = 0.04;
+		float acceleration = 0.005;
+		float dir = 1;
 	};
 
 	class SmallBee : public Entity {
@@ -620,44 +632,16 @@ public:
 		};
 	};
 
-	class BrownMushroom : public Entity {
+	class BigRedMushroom : public Entity {
 	public:
-		BrownMushroom(Mistral* g) : Entity(g) { Create(); };
+		BigRedMushroom(Mistral* g) : Entity(g) { Create(); };
 
 		void Create();
 
-		void DrawSelf() {
-			// MUSHROOMS 	
-			// NUMBER 1, LEG
-			PUSH
-				COLOR3(255, 255, 255);
-				TRANSLATE(0, 0.4, 0);
-				SCALE(0.2, 0.6, 0.08);
-				CUBE
-			POP
-			/// HAT
-			PUSH
-				COLOR3(88, 54, 34);
-				TRANSLATE(0, 0.8, 0);
-				SCALE(0.5, 0.25, 0.2);
-				CUBE
-			POP
-			PUSH
-				COLOR3(88, 54, 34);
-				TRANSLATE(0, 0.95, 0);
-				SCALE(0.3, 0.2, 0.1);
-				CUBE
-			POP
-		};
-	};
-
-	class RedMushroom : public Entity {
-	public:
-		RedMushroom(Mistral* g) : Entity(g) { Create(); };
-
-		void Create();
+		void Update();
 
 		void DrawSelf() {
+			TRANSLATE(0, -.5, 0)
 			// NUMBER 2
 			//LEG
 			PUSH
@@ -710,6 +694,127 @@ public:
 			SCALE(0.18, 0.1, 0.22);
 			CUBE
 			POP
+		};
+	};
+
+	class SmallRedMushroom : public BigRedMushroom {
+	public:
+		SmallRedMushroom(Mistral* g) : BigRedMushroom(g) { Create(); };
+
+		void DrawSelf() {
+			TRANSLATE(0, -.2, 0)
+				// MUSHROOMS 	
+				// NUMBER 1, LEG
+				PUSH
+				COLOR3(255, 255, 255);
+			TRANSLATE(0, 0.4, 0);
+			SCALE(0.2, 0.6, 0.08);
+			CUBE
+				POP
+				/// HAT
+				PUSH
+				COLOR3(255, 10, 10);
+			TRANSLATE(0, 0.8, 0);
+			SCALE(0.5, 0.25, 0.2);
+			CUBE
+				POP
+				PUSH
+				COLOR3(255, 10, 10);
+			TRANSLATE(0, 0.95, 0);
+			SCALE(0.3, 0.2, 0.1);
+			CUBE
+				POP
+		};
+	};
+
+	class SmallBlueMushroom : public BigRedMushroom {
+	public:
+		SmallBlueMushroom(Mistral* g) : BigRedMushroom(g) { Create(); };
+
+		void DrawSelf() {
+			TRANSLATE(0, -.2, 0)
+			// MUSHROOMS 	
+			// NUMBER 1, LEG
+			PUSH
+				COLOR3(255, 255, 255);
+			TRANSLATE(0, 0.4, 0);
+			SCALE(0.2, 0.6, 0.08);
+			CUBE
+				POP
+				/// HAT
+				PUSH
+				COLOR3(10, 10, 255);
+			TRANSLATE(0, 0.8, 0);
+			SCALE(0.5, 0.25, 0.2);
+			CUBE
+				POP
+				PUSH
+				COLOR3(10, 10, 255);
+			TRANSLATE(0, 0.95, 0);
+			SCALE(0.3, 0.2, 0.1);
+			CUBE
+				POP
+		};
+	};
+
+	class BigBlueMushroom : public BigRedMushroom {
+	public:
+		BigBlueMushroom(Mistral* g) : BigRedMushroom(g) { Create(); };
+
+		void DrawSelf() {
+			TRANSLATE(0, -.5, 0)
+			// NUMBER 2
+			//LEG
+			PUSH
+				COLOR3(255, 255, 255);
+			TRANSLATE(0, 0.5, 0);
+			SCALE(0.35, 0.7, 0.08);
+			CUBE
+				POP
+				/// HAT
+				PUSH
+				COLOR3(10, 10, 255);
+			TRANSLATE(0, 1.07, 0);
+			SCALE(1.2, 0.3, 0.2);
+			CUBE
+				POP
+				PUSH
+				COLOR3(10, 10, 255);
+			TRANSLATE(0, 1.22, 0);
+			SCALE(0.9, 0.35, 0.1);
+			CUBE
+				POP
+				PUSH
+				COLOR3(10, 10, 255);
+			TRANSLATE(0, 1.37, 0);
+			SCALE(0.6, 0.4, 0.1);
+			CUBE
+				POP
+				PUSH
+				COLOR3(10, 10, 255);
+			TRANSLATE(0, 1, 0);
+			SCALE(0.6, 0.4, 0.1);
+			CUBE
+				POP
+				// DOTS
+				PUSH
+				COLOR3(255, 255, 255);
+			TRANSLATE(0.06, 1.37, 0);
+			SCALE(0.1, 0.1, 0.12);
+			CUBE
+				POP
+				PUSH
+				COLOR3(255, 255, 255);
+			TRANSLATE(-0.3, 1.27, 0);
+			SCALE(0.14, 0.12, 0.12);
+			CUBE
+				POP
+				PUSH
+				COLOR3(255, 255, 255);
+			TRANSLATE(0.15, 1.1, 0);
+			SCALE(0.18, 0.1, 0.22);
+			CUBE
+				POP
 		};
 	};
 

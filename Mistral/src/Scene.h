@@ -17,8 +17,8 @@ class Scene {
 public:
 	Scene(Mistral* g);
 
-	void Load(std::string name, float z);
-	void Instantiate(std::string data[5], float z);
+	void Load(std::string name);
+	void Instantiate(std::string data[5]);
 
 	Mistral* game;
 };

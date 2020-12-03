@@ -53,19 +53,27 @@
 
 #region Level drawing
 	// Drawing of every entity
-	for (var i = 0; i < ds_list_size(level); ++i) {
-		var e = level[|i];
-	    Sprite(e.type, 0, e.xdraw(), e.ydraw(), e.xscale, e.yscale, 1);
-	}
-	
-	if (copyId!=-1) {		
-		Rectangle(copyId.x, copyId.y, copyId.x+PPU*copyId.xscale, copyId.y+PPU*copyId.yscale, c_blue, 1);
+	for (var j = 0; j < ds_list_size(numOfLayers); ++j) {
+		var zz = numOfLayers[|j];
+		if (zz >= z) {
+			var dis = 5;
+			var a = power(max((dis-(zz-z)) / dis, 0), 3);
+			var col = merge_color(Grey( 255 * a), c_blue, .1);
+			for (var i = 0; i < ds_list_size(level); ++i) {
+				var e = level[|i];
+				if ( e.z == zz )
+					Sprite(e.type, 0, e.xdraw(), e.ydraw(), e.xscale, e.yscale, col, 1);
+			}
+			if (copyId!=-1 && copyId.z >= zz) {		
+				Rectangle(copyId.x, copyId.y, copyId.x+PPU*copyId.xscale, copyId.y+PPU*copyId.yscale, c_blue, 1);
+			}
+		}
 	}
 
 	// Drawing of the entity you are about to place
 	if ( alt ) {
 		var spr = entities[|entityId];
-		Sprite(spr, 0, smx + sprite_get_xoffset(spr), smy + sprite_get_yoffset(spr), (copyId!=-1)?copyId.xscale:1, (copyId!=-1)?copyId.yscale:1, 0.7);
+		Sprite(spr, 0, smx + sprite_get_xoffset(spr), smy + sprite_get_yoffset(spr), (copyId!=-1)?copyId.xscale:1, (copyId!=-1)?copyId.yscale:1, c_white, 0.7);
 	}
 
 	// Drawing of the selected rectangle

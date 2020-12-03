@@ -15,6 +15,8 @@
 
 	level = ds_list_create();
 	placed = ds_list_create();
+	z = 0;
+	numOfLayers = ds_list_create();
 
 	selected = -1;
 	copyId = -1;
@@ -26,10 +28,11 @@
 	for (var i = 0; i < array_length(ent); ++i)
 		ds_list_add(entities, asset_get_index(ent[i]));
 
-	function Entity(x, y, type) constructor {
+	function Entity(x, y, z, type) constructor {
 		self.type = type;
 		self.x =  x;
 		self.y = y;
+		self.z = z;
 		static xdraw = function() { return self.x + sprite_get_xoffset(type); };
 		static ydraw = function() { return self.y + sprite_get_yoffset(type); };
 		self.xscale = 1;
@@ -44,6 +47,7 @@
 		self.corX = 0;
 		self.corY = 0;
 		ds_list_add(System.level, self);
+		if ( ds_list_find_index(System.numOfLayers, z) == -1 ) ds_list_add(System.numOfLayers, z);
 	}
 	
 #endregion
@@ -93,7 +97,7 @@
 				var yy = (i div itemsPerRow) * unit;
 				var spr = System.entities[|i];
 				if ( i==System.entityId && System.copyId==-1) Rectangle(xx, yy, xx+unit, yy+unit, col.shade, false);
-				Sprite(spr, 0, xx + sprite_get_xoffset(spr) * scale, yy + sprite_get_yoffset(spr) * scale, scale, scale, 1);
+				Sprite(spr, 0, xx + sprite_get_xoffset(spr) * scale, yy + sprite_get_yoffset(spr) * scale, scale, scale, c_white, 1);
 				if ( i==System.entityId && System.copyId==-1) Rectangle(xx, yy, xx+unit, yy+unit, col.accent, 1);
 			}
 			
@@ -135,6 +139,10 @@
 					}
 				}		
 			}
+			
+			// Draw the current layer
+			draw_text_transformed_color(width/2 + 2, height - 70 + 2, System.z, 7,7, 0, col.shade, col.shade, col.shade, col.shade, 1);
+			draw_text_transformed_color(width/2, height - 70, System.z, 7, 7, 0, Grey(100), Grey(100), Grey(100), Grey(100), 1);
 		}
 	}
 
@@ -169,7 +177,7 @@
 		var file = file_text_open_write(filename);
 		for (var i = 0; i < ds_list_size(level); ++i) {
 			var e = level[|i];
-			file_text_write_string(file, sprite_get_name(e.type) + "," + string(e.xdraw()/PPU) + "," + string(-e.ydraw()/PPU) + "," + string(e.xscale) + "," + string(e.yscale) + "\n");
+			file_text_write_string(file, sprite_get_name(e.type) + "," + string(e.xdraw()/PPU) + "," + string(-e.ydraw()/PPU) + "," + string(-e.z) + "," + string(e.xscale) + "," + string(e.yscale) + "\n");
 		}
 		var splits = Split(filename, ["/", "\\"]);
 		path = filename;
@@ -200,9 +208,9 @@
 		while(!file_text_eof(file)) {
 			var line = file_text_readln(file);
 			var arr = Split(line, ",");
-			var e = new Entity(real(arr[1])*PPU, -real(arr[2])*PPU, asset_get_index(arr[0]));
-			e.xscale = real(arr[3]);
-			e.yscale = real(arr[4]);
+			var e = new Entity(real(arr[1])*PPU, -real(arr[2])*PPU, real(-arr[3]), asset_get_index(arr[0]));
+			e.xscale = real(arr[4]);
+			e.yscale = real(arr[5]);
 			e.x -= sprite_get_xoffset(e.type);
 			e.y -= sprite_get_yoffset(e.type);
 		}
