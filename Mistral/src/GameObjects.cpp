@@ -5,7 +5,7 @@
 #include "random"
 
 #define PI 3.14159265358979323
-std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "GrassCornerLeft", "GroundCornerRight", "GrassCornerRight" };
+std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "GrassCornerLeft", "GroundCornerRight", "GrassCornerRight", "BrownMushroom", "RedMushroom" };
 
 #pragma region Functions
 
@@ -74,19 +74,28 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 
 		if (hspd == 0) animation = 0;
 		else animation -= 1 - 2 * (hspd > 0);
+		// Frontal movement
+		if (CheckCollision("RedMushroom", position.x, position.y - 0.3)) {
+			targetZ -= 5;
+			rotation.z = 360;
+			Jump();
+		}
+		if (CheckCollision("BrownMushroom", position.x, position.y - 0.3)) {
+			targetZ += 5;
+			rotation.z = 360;
+			Jump();
+		}
 
-		if (CheckCollision("RedMushroom", position)) position.z -= 5;
-		if (CheckCollision("BrownMushroom", position)) position.z += 5;
+		position.z = lerp(position.z, targetZ, 0.1);
+		if (abs(position.z - targetZ) < 0.1) position.z = targetZ;
+		rotation.z = approach(rotation.z, 0, 10);
 
 		// Vertical movement
 		if (!CheckCollision(colliders, position.x, position.y - gravity)) {
 			vspd = max(vspd - gravity, -.3f);
 		} else {
 			if (game->input->InputCheck("JUMP", InputState::PRESSED)) {
-				int buf = game->audio->loadSound("resources/jump.wav");
-				auto jump = new AudioSource();
-				jump->playSound(buf);
-				vspd = jumpforce;
+				Jump();
 				if (!CheckCollision(colliders, position.x, position.y + jumpforce * 2))
 					scale = glm::vec3(0.2f, 1.4f, 1.0f);
 			}
@@ -103,10 +112,17 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 
 		if (CheckCollision("Snail", position.x, position.y)) {
 			if (!CheckCollision("Snail", position.x, position.y + 0.3)) {
-				int buf = game->audio->loadSound("resources/jump.wav");
-				auto jump = new AudioSource();
-				jump->playSound(buf);
-				vspd = jumpforce;
+				Jump();
+				rotation.z = 360;
+				REPEAT(5) {
+					Dust* e = new Dust(game);
+					e->position = position;
+					float dir = random() * 1.0f - 0.5f;
+					e->position.x += dir;
+					e->xspd = dir * 0.01;
+					e->yspd = random() * 0.005 + 0.005;
+					e->zspd = random() * 0.005 + 0.005;
+				}
 			} else {
 				EntityDestroy(id);
 			}
@@ -144,7 +160,6 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 
 		// Fix position
 		if (CheckCollision(colliders, position.x, position.y)) {
-			PRINT("Aqquiiii")
 			int count = 0;
 			float dist = 0.2;
 			float prec = 90;
@@ -164,8 +179,8 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 
 		if (game->input->InputCheck("EXIT", InputState::PRESSED)) game->End();
 
-		game->camera->position = lerp(game->camera->position, position + glm::vec3(0.0f, 1.0f, 3.0f), 0.1f);
-		game->camera->lookat = lerp(game->camera->lookat, position + glm::vec3(0.0f, 1.0f, 0.0f), 0.1);
+		game->camera->position = lerp(game->camera->position, position + glm::vec3(0.0f, 1.0f, 3.0f), 0.2f);
+		game->camera->lookat = lerp(game->camera->lookat, position + glm::vec3(0.0f, 1.0f, 0.0f), 0.2f);
 		game->camera->up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 
@@ -368,6 +383,13 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 
 	};
 
+	void Character::Jump() {
+		int buf = game->audio->loadSound("resources/jump.wav");
+		auto jump = new AudioSource();
+		jump->playSound(buf);
+		vspd = jumpforce;
+	}
+
 #pragma endregion
 
 #pragma region Solids
@@ -500,11 +522,11 @@ std::list<std::string> colliders = { "Ground", "Grass", "GroundCornerLeft", "Gra
 	}
 
 	void RedMushroom::Create() {
-		margin.push_back(glm::vec4(.5, .5, .5, 0));
+		margin.push_back(glm::vec4(.5, 1.2, .5, 0));
 	}
 
 	void BrownMushroom::Create() {
-		margin.push_back(glm::vec4(.5, .5, .5, 0));
+		margin.push_back(glm::vec4(.5, 1, .5, 0));
 	}
 
 #pragma endregion

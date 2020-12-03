@@ -38,6 +38,8 @@ public:
 
 	void DrawSelf();
 
+	void Jump();
+
 	float hspd = 0;
 	float vspd = 0;
 	float maxspd = 0.1;
@@ -52,6 +54,7 @@ public:
 	int clothingCol2[3] = { 255, 180, 10 };
 
 	float animation = 0;
+	float targetZ = 0;
 };
 
 #pragma endregion
